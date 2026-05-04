@@ -1,0 +1,780 @@
+# PixelArtist — 像素素材生成器（星露谷物语完全复刻版）
+# 瓦片 16×16 → 2x → 32×32，角色 24×32 星露谷原始尺寸
+extends Node
+
+# ═══════════════════════════════════
+# 🎨 调色板（温暖柔和，高对比阴影）
+# ═══════════════════════════════════
+const PALETTE = {
+	g_d = Color("#46732e"), g = Color("#5c8f3c"), g_l = Color("#6ca048"),
+	g_b = Color("#7cb854"), g_s = Color("#8fc868"), g_n = Color("#3d6624"),
+	d_d = Color("#78583c"), d = Color("#886846"), d_l = Color("#987854"),
+	d_b = Color("#a88862"), d_w = Color("#5a4a30"),
+	w_d = Color("#2a6090"), w = Color("#3870a0"), w_l = Color("#4880b0"),
+	w_f = Color("#68a8d0"), w_w = Color("#5898c0"), w_g = Color("#88c0e0"),
+	wd = Color("#4a3020"), wl = Color("#5a3a2a"), wb = Color("#7a5a4a"),
+	r = Color("#3a2010"), r_l = Color("#4a3020"),
+	db = Color("#5a3a2a"), dd = Color("#3a2010"),
+	wg = Color("#88a8c8"), wt = Color("#a0c0e0"),
+	p_d = Color("#887858"), p = Color("#988868"), p_l = Color("#a89878"),
+	p_s = Color("#a09070"), p_h = Color("#b8a888"),
+	f_pk = Color("#e86888"), f_rs = Color("#e088a0"), f_pe = Color("#e8a878"),
+	f_y = Color("#e8c040"), f_r = Color("#c46858"), f_b = Color("#6888c0"),
+	f_pu = Color("#9860c0"), f_o = Color("#e88808"), f_w = Color("#e0e0d8"),
+	s = Color("#e8c8a0"), s_s = Color("#d8b890"), s_l = Color("#f0d8b0"),
+	s_b = Color("#e8a090"),
+	h_br = Color("#3a2a1a"), h_bl = Color("#4a3a28"),
+	h_bk = Color("#18180a"), h_kl = Color("#282818"),
+	h_yd = Color("#c09840"), h_yl = Color("#c8a850"), h_a = Color("#683828"),
+	e_d = Color("#18182c"), e_b = Color("#3878b0"), e_g = Color("#488838"),
+	e_h = Color("#e8e8e8"),
+	pl_b = Color("#4888d0"), pl_s = Color("#3878b8"), pl_l = Color("#5898e0"),
+	je = Color("#385888"), je_s = Color("#284878"),
+	l_pk = Color("#e86888"), l_ps = Color("#d05878"), l_pl = Color("#f088a8"),
+	l_sk = Color("#e06078"), l_sh = Color("#e8a878"),
+	fn = Color("#887044"), fnd = Color("#685030"), fnl = Color("#988054"),
+	tk = Color("#583828"), tkd = Color("#382818"), tkl = Color("#684838"),
+	lf_d = Color("#286828"), lf = Color("#387830"), lf_l = Color("#488840"),
+	lf_b = Color("#589850"), lf_s = Color("#68a860"),
+	gt = Color("#d0a858"), gb = Color("#d8c040"), gs = Color("#e8d060"),
+	hr = Color("#e82850"), st = Color("#e8c830"),
+}
+
+static func create(w: int, h: int) -> Image:
+	var img = Image.create(w, h, false, Image.FORMAT_RGBA8)
+	img.fill(Color(0, 0, 0, 0))
+	return img
+
+static func r(img: Image, x: int, y: int, w: int, h: int, c: Color):
+	for py in range(y, y + h):
+		for px in range(x, x + w):
+			if px >= 0 and px < img.get_width() and py >= 0 and py < img.get_height():
+				img.set_pixel(px, py, c)
+
+static func p(img: Image, x: int, y: int, c: Color):
+	if x >= 0 and x < img.get_width() and y >= 0 and y < img.get_height():
+		img.set_pixel(x, y, c)
+
+static func circ(img: Image, cx: int, cy: int, r: int, c: Color):
+	for y in range(-r, r + 1):
+		for x in range(-r, r + 1):
+			if x*x + y*y <= r*r:
+				p(img, cx + x, cy + y, c)
+
+static func fcirc(img: Image, cx: int, cy: int, r: int, c: Color):
+	for y in range(-r, r + 1):
+		for x in range(-r, r + 1):
+			if x*x + y*y <= r*r:
+				p(img, cx + x, cy + y, c)
+
+static func to_tex(img: Image) -> ImageTexture:
+	return ImageTexture.create_from_image(img)
+
+# Colour helpers
+static func _darker(c: Color, f: float = 0.25) -> Color:
+	return Color(c.r * (1.0 - f), c.g * (1.0 - f), c.b * (1.0 - f), c.a)
+
+# ═══════════════════════════════════
+# 🏞️ 瓦片（16×16 → 2x upscale to 32×32）
+# ═══════════════════════════════════
+
+static func generate_tile(type: String, v: int = 0) -> ImageTexture:
+	var src = create(16, 16)
+	match type:
+		"grass": _tg(src, v)
+		"dirt": _td(src, v)
+		"water": _tw(src, v)
+		"path": _tp(src, v)
+		"flower_bed": _tf(src, v)
+		"fence": _tfn(src)
+		"house_wall": _twall(src)
+		"house_roof": _troof(src)
+		"door": _tdoor(src)
+		"tree": _tt(src, v)
+	# 2x upscale to 32x32
+	return _upscale2x(src, 32, 32)
+
+# ─── Grass Tile ────────────────────────────
+static func _tg(img: Image, v: int):
+	r(img, 0, 0, 16, 16, PALETTE.g)
+	# 15-20 noise dots in g_d and g_n, clustered
+	for i in range(20):
+		var px = (i * 7 + v * 11) % 14 + 1
+		var py = (i * 13 + v * 5) % 14 + 1
+		var c = PALETTE.g_n if (i + v) % 3 == 0 else PALETTE.g_d
+		p(img, px, py, c)
+		if i % 2 == 0:
+			p(img, px + 1, py + 1, c)
+	# 5 small grass blades (1-2px tall)
+	for i in range(5):
+		var gx = 2 + (i * 7 + v * 3) % 12
+		var gy = 9 + (i * 5 + v * 7) % 5
+		var gc = [PALETTE.g_s, PALETTE.g_l, PALETTE.g_b, PALETTE.g_s, PALETTE.g_l][i]
+		p(img, gx, gy, gc)
+		p(img, gx, gy - 1, gc)
+		if i % 2 == 0:
+			p(img, gx + 1, gy - 1, gc)
+	# Tiny flower dots
+	if v % 2 == 0:
+		p(img, (v * 3) % 14 + 1, (v * 7) % 14 + 1, PALETTE.f_pk)
+	if v % 3 == 0:
+		p(img, (v * 5 + 7) % 14 + 1, (v * 11 + 3) % 14 + 1, PALETTE.f_y)
+
+# ─── Tilled Dirt Tile ──────────────────────
+static func _td(img: Image, v: int):
+	r(img, 0, 0, 16, 16, PALETTE.d_d)
+	var seed = v * 7 + 13
+	# 8-10 dirt clod dots
+	for i in range(10):
+		var cx = (i * 9 + seed) % 14 + 1
+		var cy = (i * 11 + seed * 2) % 14 + 1
+		var c = PALETTE.d if (i + v) % 2 == 0 else PALETTE.d_l
+		p(img, cx, cy, c)
+		if i % 3 == 0:
+			p(img, cx + 1, cy, c)
+	# 3-4 pebble dots
+	for i in range(4):
+		var px = (i * 13 + seed * 3) % 14 + 1
+		var py = (i * 17 + seed * 5) % 14 + 1
+		p(img, px, py, PALETTE.d_w)
+		p(img, px + 1, py, PALETTE.d_w)
+	# Bottom/right edge 1px shadow
+	r(img, 0, 15, 16, 1, _darker(PALETTE.d_d, 0.2))
+	r(img, 15, 0, 1, 16, _darker(PALETTE.d_d, 0.2))
+	# Occasional root/weed line
+	if v % 2 == 0:
+		var rx = 3 + (v * 3) % 10
+		var ry = 4 + (v * 5) % 8
+		r(img, rx, ry, 1, 4, PALETTE.d_w)
+	else:
+		var rx = 8 + (v * 7) % 6
+		var ry = 3 + (v * 9) % 8
+		r(img, rx, ry, 1, 3, PALETTE.d_w)
+
+# ─── Path Tile ────────────────────────────
+static func _tp(img: Image, v: int):
+	r(img, 0, 0, 16, 16, PALETTE.p_d)
+	# 6-8 paving stone patches
+	var stones = [[1,1,5,4],[7,1,7,3],[3,5,5,5],[10,5,5,3],[1,10,5,4],[7,10,7,3],[12,9,3,5],[4,14,8,2]]
+	for s in stones:
+		var col = PALETTE.p if (s[0] + s[1]) % 3 < 2 else PALETTE.p_l
+		r(img, s[0], s[1], s[2], s[3], col)
+		# Highlight on upper-left of each stone
+		p(img, s[0] + 1, s[1] + 1, PALETTE.p_h)
+	# 3-5 crack lines
+	for i in range(5):
+		var gx = (i * 9 + v * 5) % 14
+		var gy = (i * 13 + v * 3) % 14
+		var c = PALETTE.d_w if (i + v) % 2 == 0 else PALETTE.p_h
+		r(img, gx, gy, 2, 1, c)
+		if i % 2 == 0:
+			r(img, gx, gy + 1, 1, 2, c)
+
+# ─── Water Tile ───────────────────────────
+static func _tw(img: Image, v: int):
+	r(img, 0, 0, 16, 16, PALETTE.w_d)
+	# 2-3 wave lines across center
+	var ly1 = 5 + (v % 3)
+	var ly2 = 8 + (v * 2) % 3
+	var ly3 = 11 + (v * 3) % 2
+	for x in range(0, 16, 3):
+		r(img, x + (v % 2), ly1, 2, 1, PALETTE.w)
+		r(img, x + ((v + 1) % 2), ly2, 2, 1, PALETTE.w_l)
+		if v % 2 == 0:
+			r(img, x + (v % 2), ly3, 2, 1, PALETTE.w)
+	# 3-4 sparkle dots (white 50% alpha)
+	var sparkle = Color(1, 1, 1, 0.5)
+	var spos = [[2,2],[13,4],[5,12],[14,10]]
+	for i in range(4):
+		var idx = (v + i * 7) % 4
+		var sx = spos[idx][0] + (v % 3)
+		var sy = spos[idx][1] + (v % 5)
+		p(img, sx, sy, sparkle)
+		p(img, sx + 1, sy, sparkle)
+	# Bottom gradient shift
+	for x in range(0, 16, 4):
+		p(img, x, 14, _darker(PALETTE.w_d, 0.15))
+		p(img, x, 15, _darker(PALETTE.w_d, 0.3))
+
+# ─── Flower Bed Tile ───────────────────────
+static func _tf(img: Image, v: int):
+	r(img, 0, 0, 16, 16, PALETTE.g)
+	var fc = [PALETTE.f_pk, PALETTE.f_rs, PALETTE.f_y, PALETTE.f_pe, PALETTE.f_b, PALETTE.f_pu, PALETTE.f_o, PALETTE.f_r, PALETTE.f_w]
+	var positions = [[3,3],[11,3],[3,11],[11,11],[7,7]]
+	var used = 3 + (v % 3)
+	for i in range(used):
+		var idx = (v + i * 3) % positions.size()
+		var px = positions[idx][0]
+		var py = positions[idx][1]
+		var col = fc[(v + i) % fc.size()]
+		p(img, px, py, col)
+		p(img, px+1, py, col)
+		p(img, px, py+1, col)
+		p(img, px+1, py+1, col)
+		p(img, px, py, PALETTE.f_y)
+
+# ─── Fence ────────────────────────────────
+static func _tfn(img: Image):
+	r(img, 0, 0, 16, 16, PALETTE.fn)
+	# Horizontal planks
+	r(img, 0, 5, 16, 2, PALETTE.fnd)
+	r(img, 0, 5, 16, 1, PALETTE.fnl)
+	r(img, 0, 12, 16, 2, PALETTE.fnd)
+	r(img, 0, 12, 16, 1, PALETTE.fnl)
+	# Vertical posts
+	r(img, 3, 0, 3, 16, PALETTE.fnd)
+	r(img, 11, 0, 3, 16, PALETTE.fnd)
+	# Nail dots
+	p(img, 4, 6, PALETTE.gt)
+	p(img, 12, 6, PALETTE.gt)
+	p(img, 4, 13, PALETTE.gt)
+	p(img, 12, 13, PALETTE.gt)
+
+# ─── House Wall ───────────────────────────
+static func _twall(img: Image):
+	r(img, 0, 0, 16, 16, PALETTE.wl)
+	r(img, 0, 0, 16, 2, PALETTE.wb)
+	r(img, 15, 0, 1, 16, PALETTE.wb)
+	# Horizontal brick lines every 4px
+	for y in range(3, 16, 4):
+		r(img, 0, y, 16, 1, PALETTE.wd)
+	# Occasional lighter brick
+	for i in range(3):
+		var bx = (i * 7 + 2) % 14
+		var by = (i * 5 + 3) % 12
+		r(img, bx, by, 3, 2, PALETTE.db)
+
+# ─── House Roof ───────────────────────────
+static func _troof(img: Image):
+	r(img, 0, 0, 16, 16, PALETTE.r)
+	r(img, 0, 0, 16, 2, PALETTE.r_l)
+	for y in range(3, 16, 3):
+		r(img, 0, y, 16, 1, PALETTE.r_l)
+
+# ─── Door ─────────────────────────────────
+static func _tdoor(img: Image):
+	r(img, 0, 0, 16, 16, PALETTE.db)
+	r(img, 2, 1, 12, 14, PALETTE.dd)
+	r(img, 3, 2, 10, 12, PALETTE.db)
+	circ(img, 13, 8, 2, PALETTE.gt)
+	circ(img, 13, 8, 1, PALETTE.gb)
+	p(img, 13, 8, PALETTE.gs)
+
+# ─── Tree ─────────────────────────────────
+static func _tt(img: Image, v: int):
+	# Trunk 3px wide
+	r(img, 6, 10, 4, 6, PALETTE.tk)
+	r(img, 6, 8, 4, 3, PALETTE.tkd)
+	r(img, 5, 14, 6, 2, PALETTE.tkl)
+	# Canopy: 5-6 layers
+	fcirc(img, 8, 5, 7, PALETTE.lf_d)
+	fcirc(img, 7, 3, 5, PALETTE.lf)
+	fcirc(img, 9, 4, 5, PALETTE.lf_l)
+	fcirc(img, 8, 2, 4, PALETTE.lf_b)
+	fcirc(img, 6, 1, 3, PALETTE.lf_s)
+	fcirc(img, 10, 1, 3, PALETTE.lf_s)
+	# Leaf highlights
+	p(img, 5, 2, PALETTE.g_b)
+	p(img, 12, 2, PALETTE.g_b)
+	p(img, 7, 0, PALETTE.lf_s)
+	p(img, 10, 0, PALETTE.lf_s)
+	# Shadow below canopy
+	p(img, 3, 8, _darker(PALETTE.lf_d, 0.3))
+	p(img, 13, 8, _darker(PALETTE.lf_d, 0.3))
+	p(img, 4, 9, _darker(PALETTE.lf_d, 0.3))
+	p(img, 12, 9, _darker(PALETTE.lf_d, 0.3))
+
+# ═══════════════════════════════════
+# 👤 角色（24×32 星露谷原始比例）
+#   头 10×10 | 身体 10×12 | 腿 + 鞋
+# ═══════════════════════════════════
+
+static func generate_player_sprite(dir: String = "down", frame: int = 0) -> ImageTexture:
+	var src = create(16, 32)
+	var lo = 0
+	if frame == 1: lo = 1
+	elif frame == 3: lo = -1
+	
+	# ── Outline ──
+	var outline = _darker(PALETTE.pl_b, 0.3)
+	r(src, 4, 15, 1, 9, outline)
+	r(src, 12, 15, 1, 9, outline)
+	
+	# ── Legs ──
+	if frame == 0 or frame == 2:
+		r(src, 6, 25, 2, 5, PALETTE.je)
+		r(src, 9, 25, 2, 5, PALETTE.je)
+		p(src, 6, 25, _darker(PALETTE.je, 0.3))
+		p(src, 8, 25, _darker(PALETTE.je, 0.3))
+		p(src, 11, 25, _darker(PALETTE.je, 0.3))
+		r(src, 5, 30, 3, 2, PALETTE.h_a)
+		r(src, 9, 30, 3, 2, PALETTE.h_a)
+		r(src, 5, 31, 3, 1, _darker(PALETTE.h_a, 0.2))
+		r(src, 9, 31, 3, 1, _darker(PALETTE.h_a, 0.2))
+	else:
+		r(src, 6 + lo, 25, 2, 5, PALETTE.je)
+		r(src, 9 - lo, 25, 2, 5, PALETTE.je)
+		r(src, 5 + lo, 30, 3, 2, PALETTE.h_a)
+		r(src, 9 - lo, 30, 3, 2, PALETTE.h_a)
+		r(src, 5 + lo, 31, 3, 1, _darker(PALETTE.h_a, 0.2))
+		r(src, 9 - lo, 31, 3, 1, _darker(PALETTE.h_a, 0.2))
+	
+	# ── Body (blue shirt) ──
+	r(src, 5, 15, 7, 10, PALETTE.pl_b)
+	r(src, 5, 15, 7, 3, PALETTE.pl_s)
+	r(src, 5, 22, 7, 1, PALETTE.pl_s)
+	p(src, 4, 15, outline)
+	p(src, 12, 15, outline)
+	
+	# ── Arms (skin) ──
+	if frame == 0 or frame == 2:
+		r(src, 3, 16, 2, 4, PALETTE.s_s)
+		r(src, 12, 16, 2, 4, PALETTE.s_s)
+	else:
+		var swing = lo * 2
+		r(src, 3 - swing, 16, 2, 4, PALETTE.s_s)
+		r(src, 12 + swing, 16, 2, 4, PALETTE.s_s)
+	
+	# ── Head ──
+	fcirc(src, 8, 7, 5, PALETTE.s)
+	fcirc(src, 8, 7, 4, PALETTE.s_l)
+	# Head outline
+	for dy in range(-5, 6):
+		for dx in range(-5, 6):
+			if dx*dx + dy*dy <= 25 and dx*dx + dy*dy > 16:
+				p(src, 8 + dx, 7 + dy, _darker(PALETTE.s, 0.2))
+	
+	# ── Hair: brown left-parted ──
+	fcirc(src, 8, 3, 5, PALETTE.h_br)
+	r(src, 4, 2, 8, 4, PALETTE.h_br)
+	r(src, 3, 4, 4, 5, PALETTE.h_br)
+	r(src, 10, 4, 3, 5, PALETTE.h_br)
+	r(src, 5, 0, 6, 3, PALETTE.h_br)
+	r(src, 4, 1, 8, 1, _darker(PALETTE.h_br, 0.3))
+	p(src, 3, 3, _darker(PALETTE.h_br, 0.3))
+	p(src, 13, 3, _darker(PALETTE.h_br, 0.3))
+	p(src, 7, 0, PALETTE.h_bl)
+	p(src, 10, 0, PALETTE.h_bl)
+	
+	# ── Ears ──
+	p(src, 3, 7, PALETTE.s)
+	p(src, 13, 7, PALETTE.s)
+	
+	# ── Eyes (2×2 white + 1px pupil) ──
+	var eo = 0
+	if dir == "left": eo = -1
+	elif dir == "right": eo = 1
+	r(src, 6 + eo, 8, 2, 2, PALETTE.e_h)
+	r(src, 9 + eo, 8, 2, 2, PALETTE.e_h)
+	p(src, 6 + eo, 8, PALETTE.e_d)
+	p(src, 9 + eo, 8, PALETTE.e_d)
+	
+	# ── Eyebrows ──
+	r(src, 5 + eo, 6, 3, 1, PALETTE.h_br)
+	r(src, 9 + eo, 6, 3, 1, PALETTE.h_br)
+	
+	# ── Blush ──
+	p(src, 4, 11, PALETTE.s_b)
+	p(src, 12, 11, PALETTE.s_b)
+	
+	# ── Mouth ──
+	if dir == "down":
+		p(src, 8, 12, Color("#c06050"))
+	
+	return _upscale2x(src, 32, 64)
+
+static func generate_liaofang_sprite(dir: String = "down", frame: int = 0) -> ImageTexture:
+	var src = create(16, 32)
+	var lo = 0
+	if frame == 1: lo = 1
+	elif frame == 3: lo = -1
+	
+	var outline_ps = _darker(PALETTE.l_ps, 0.2)
+	p(src, 4, 17, outline_ps)
+	r(src, 5, 17, 1, 5, outline_ps)
+	r(src, 11, 17, 1, 5, outline_ps)
+	
+	# ── Shoes ──
+	r(src, 6 + lo, 30, 2, 2, PALETTE.l_sh)
+	r(src, 9 - lo, 30, 2, 2, PALETTE.l_sh)
+	r(src, 5 + lo, 31, 3, 1, Color("#6a4a2a"))
+	r(src, 9 - lo, 31, 3, 1, Color("#6a4a2a"))
+	
+	# ── Pink Dress ──
+	r(src, 5, 20, 7, 10, PALETTE.l_sk)
+	r(src, 4, 21, 8, 8, PALETTE.l_sk)
+	r(src, 5, 20, 7, 4, PALETTE.l_ps)
+	p(src, 4, 21, PALETTE.l_ps)
+	p(src, 12, 21, PALETTE.l_ps)
+	r(src, 5, 25, 7, 1, PALETTE.l_ps)
+	r(src, 6, 28, 5, 1, PALETTE.l_ps)
+	r(src, 4, 21, 1, 9, _darker(PALETTE.l_sk, 0.2))
+	r(src, 12, 21, 1, 9, _darker(PALETTE.l_sk, 0.2))
+	
+	# ── Upper body ──
+	r(src, 5, 16, 6, 5, PALETTE.l_pk)
+	r(src, 5, 17, 7, 4, PALETTE.l_pk)
+	r(src, 6, 16, 4, 2, Color("#f0f0f0"))
+	p(src, 6, 17, PALETTE.l_ps)
+	p(src, 10, 17, PALETTE.l_ps)
+	p(src, 8, 20, PALETTE.hr)
+	
+	# ── Head ──
+	fcirc(src, 8, 7, 5, PALETTE.s)
+	fcirc(src, 8, 7, 4, PALETTE.s_l)
+	
+	# ── Long black hair ──
+	r(src, 3, 2, 10, 11, PALETTE.h_bk)
+	r(src, 2, 5, 3, 15, PALETTE.h_bk)
+	r(src, 12, 5, 3, 15, PALETTE.h_bk)
+	r(src, 4, 1, 8, 5, PALETTE.h_bk)
+	fcirc(src, 8, 3, 5, PALETTE.h_bk)
+	r(src, 2, 2, 12, 1, _darker(PALETTE.h_bk, 0.3))
+	p(src, 5, 1, PALETTE.h_kl)
+	p(src, 11, 1, PALETTE.h_kl)
+	p(src, 1, 17, PALETTE.h_bk)
+	p(src, 15, 17, PALETTE.h_bk)
+	p(src, 1, 19, PALETTE.h_kl)
+	p(src, 15, 19, PALETTE.h_kl)
+	
+	# ── Ears ──
+	p(src, 3, 7, PALETTE.s)
+	p(src, 13, 7, PALETTE.s)
+	
+	# ── Eyes ──
+	var eo = 0
+	if dir == "left": eo = -1
+	elif dir == "right": eo = 1
+	r(src, 6 + eo, 8, 2, 2, PALETTE.e_b)
+	r(src, 9 + eo, 8, 2, 2, PALETTE.e_b)
+	p(src, 6 + eo, 8, PALETTE.e_h)
+	p(src, 9 + eo, 8, PALETTE.e_h)
+	p(src, 5 + eo, 7, PALETTE.h_bk)
+	p(src, 7 + eo, 7, PALETTE.h_bk)
+	p(src, 10 + eo, 7, PALETTE.h_bk)
+	p(src, 12 + eo, 7, PALETTE.h_bk)
+	
+	# ── Eyebrows ──
+	r(src, 5 + eo, 6, 3, 1, PALETTE.h_bk)
+	r(src, 9 + eo, 6, 3, 1, PALETTE.h_bk)
+	
+	# ── Blush ──
+	p(src, 4, 11, PALETTE.s_b)
+	p(src, 12, 11, PALETTE.s_b)
+	
+	# ── Mouth ──
+	if dir == "down":
+		r(src, 6, 12, 4, 1, Color("#c06050"))
+		p(src, 7, 12, Color.WHITE)
+	
+	# ── Hair bow ──
+	r(src, 11, 3, 3, 3, PALETTE.f_pk)
+	r(src, 12, 2, 2, 1, PALETTE.f_pk)
+	p(src, 11, 4, PALETTE.f_pk)
+	p(src, 14, 4, PALETTE.f_pk)
+	p(src, 12, 3, PALETTE.f_y)
+	
+	return _upscale2x(src, 32, 64)
+
+# ═══════════════════════════════════
+# 🌿 作物（16×16 四阶段）
+# ═══════════════════════════════════
+
+static func generate_crop_sprite(stage: int, type: String = "bluebell") -> ImageTexture:
+	var img = create(16, 16)
+	# Stage 0: dirt mound with 1-2 small green dots
+	if stage == 0:
+		r(img, 6, 12, 4, 2, PALETTE.d_d)
+		r(img, 7, 11, 2, 2, PALETTE.d_l)
+		p(img, 7, 10, PALETTE.d_b)
+		p(img, 6, 9, PALETTE.g_n)
+		p(img, 10, 9, PALETTE.g_n)
+		return _upscale2x(img, 32, 32)
+	# Stage 1: seedling with 2 cotyledons
+	if stage == 1:
+		r(img, 7, 10, 2, 4, PALETTE.d_d)
+		r(img, 7, 9, 2, 2, PALETTE.g_d)
+		p(img, 6, 8, PALETTE.g_l)
+		p(img, 10, 8, PALETTE.g_l)
+		p(img, 5, 8, PALETTE.g_s)
+		p(img, 11, 8, PALETTE.g_s)
+		return _upscale2x(img, 32, 32)
+	# Stage 2: bush with leaf clusters
+	if stage == 2:
+		r(img, 7, 7, 2, 9, PALETTE.g_d)
+		r(img, 5, 6, 6, 3, PALETTE.g)
+		r(img, 6, 5, 4, 2, PALETTE.g_l)
+		p(img, 5, 4, PALETTE.g_b)
+		p(img, 11, 4, PALETTE.g_b)
+		if type == "bluebell":
+			r(img, 6, 3, 4, 3, PALETTE.f_b)
+			p(img, 7, 2, PALETTE.f_b)
+			p(img, 9, 2, PALETTE.f_b)
+			p(img, 7, 1, PALETTE.f_pu)
+			p(img, 9, 1, PALETTE.f_pu)
+		else:
+			fcirc(img, 8, 4, 3, PALETTE.f_y)
+			fcirc(img, 8, 4, 2, PALETTE.f_o)
+			p(img, 8, 3, Color(1, 1, 1, 0.3))
+		return _upscale2x(img, 32, 32)
+	# Stage 3: mature plant with flowers/fruits
+	r(img, 7, 5, 2, 10, PALETTE.g_d)
+	p(img, 5, 8, PALETTE.g_l)
+	p(img, 11, 8, PALETTE.g_l)
+	if type == "bluebell":
+		fcirc(img, 6, 4, 4, PALETTE.f_b)
+		fcirc(img, 10, 3, 4, PALETTE.f_b)
+		fcirc(img, 8, 5, 3, PALETTE.f_pu)
+		p(img, 4, 2, PALETTE.f_b)
+		p(img, 12, 1, PALETTE.f_b)
+		p(img, 7, 2, PALETTE.f_y)
+		p(img, 9, 2, PALETTE.f_y)
+		# 1px highlight
+		p(img, 5, 3, Color(1, 1, 1, 0.3))
+		p(img, 9, 2, Color(1, 1, 1, 0.3))
+	else:
+		fcirc(img, 8, 4, 5, PALETTE.f_y)
+		fcirc(img, 8, 4, 3, PALETTE.f_o)
+		fcirc(img, 8, 4, 1, Color("#c06050"))
+		p(img, 8, 2, Color(1, 1, 1, 0.3))
+	return _upscale2x(img, 32, 32)
+
+# ═══════════════════════════════════
+# 🎒 物品图标（24×24）
+# ═══════════════════════════════════
+
+static func generate_item_icon(item_type: String, variant: int = 0) -> ImageTexture:
+	var img = create(24, 24)
+	match item_type:
+		"bluebell":
+			r(img, 9, 6, 6, 12, PALETTE.f_b)
+			r(img, 10, 4, 4, 3, PALETTE.f_b)
+			r(img, 8, 16, 8, 4, PALETTE.g_d)
+			r(img, 11, 20, 2, 3, PALETTE.g)
+			p(img, 11, 8, PALETTE.f_y)
+			p(img, 12, 8, PALETTE.f_y)
+			p(img, 13, 8, PALETTE.f_y)
+		"wheat":
+			r(img, 10, 4, 4, 14, PALETTE.d_l)
+			for i in range(4):
+				p(img, 9 + i, 3 + i*2, PALETTE.f_y)
+				p(img, 11 + i, 4 + i*2, PALETTE.f_y)
+		"tomato":
+			fcirc(img, 12, 12, 7, PALETTE.f_r)
+			fcirc(img, 11, 10, 5, Color(1, 0.8, 0.8, 0.3))
+			r(img, 10, 3, 4, 4, PALETTE.g_d)
+			p(img, 11, 2, PALETTE.g)
+			p(img, 12, 2, PALETTE.g)
+		"diamond":
+			r(img, 7, 4, 10, 4, Color("#b0e0ff"))
+			r(img, 5, 8, 14, 6, Color("#e0f0ff"))
+			r(img, 7, 14, 10, 6, Color("#b0e0ff"))
+			p(img, 12, 6, Color.WHITE)
+			p(img, 12, 11, Color.WHITE)
+		"fish":
+			r(img, 4, 9, 16, 6, PALETTE.w_l)
+			r(img, 2, 10, 4, 4, PALETTE.w)
+			r(img, 0, 11, 3, 2, PALETTE.w_d)
+			circ(img, 17, 12, 2, PALETTE.e_d)
+			circ(img, 17, 12, 1, PALETTE.e_h)
+		"flower":
+			var colors = [PALETTE.f_pk, PALETTE.f_y, PALETTE.f_b, PALETTE.f_pe]
+			var c = colors[variant % colors.size()]
+			fcirc(img, 12, 9, 5, c)
+			fcirc(img, 12, 9, 3, PALETTE.f_y)
+			r(img, 10, 14, 4, 8, PALETTE.g_d)
+		"gold":
+			r(img, 6, 5, 12, 14, PALETTE.gt)
+			r(img, 5, 5, 14, 3, PALETTE.gb)
+			r(img, 5, 16, 14, 3, Color("#c0a020"))
+			p(img, 12, 10, PALETTE.gs)
+		"milk":
+			r(img, 8, 6, 8, 14, PALETTE.e_h)
+			r(img, 9, 3, 6, 3, PALETTE.e_h)
+			r(img, 8, 18, 8, 2, Color(0.9, 0.9, 0.9))
+		"egg":
+			fcirc(img, 12, 11, 7, Color("#f0e8d0"))
+			fcirc(img, 13, 10, 5, Color("#faf0e0"))
+			circ(img, 12, 11, 7, Color("#d0c8b0"))
+		"cake":
+			r(img, 5, 9, 14, 12, PALETTE.l_pk)
+			r(img, 4, 9, 16, 3, PALETTE.e_h)
+			p(img, 12, 5, PALETTE.hr)
+			p(img, 11, 6, PALETTE.f_r)
+			p(img, 13, 6, PALETTE.f_r)
+		"coal":
+			fcirc(img, 12, 11, 7, Color("#3a3a3a"))
+			fcirc(img, 11, 9, 4, Color("#4a4a4a"))
+			p(img, 12, 13, Color("#2a2a2a"))
+		"sword":
+			r(img, 11, 2, 2, 14, Color("#c0c0c0"))
+			r(img, 12, 0, 2, 2, Color("#d0d0d0"))
+			r(img, 9, 16, 6, 4, PALETTE.d_l)
+			r(img, 10, 14, 4, 2, PALETTE.d)
+			r(img, 12, 3, 2, 2, Color.WHITE)
+		_:
+			circ(img, 12, 12, 8, Color("#8a8a8a"))
+	return to_tex(img)
+
+static func _upscale2x(src: Image, dw: int, dh: int) -> ImageTexture:
+	var dst = create(dw, dh)
+	var sw = src.get_width()
+	var sh = src.get_height()
+	for sy in range(sh):
+		for sx in range(sw):
+			var c = src.get_pixel(sx, sy)
+			dst.set_pixel(sx*2, sy*2, c)
+			if sx*2+1 < dw: dst.set_pixel(sx*2+1, sy*2, c)
+			if sy*2+1 < dh: dst.set_pixel(sx*2, sy*2+1, c)
+			if sx*2+1 < dw and sy*2+1 < dh: dst.set_pixel(sx*2+1, sy*2+1, c)
+	return to_tex(dst)
+
+# ═══════════════════════════════════
+# ❤️ UI 图标
+# ═══════════════════════════════════
+
+static func generate_heart_icon() -> ImageTexture:
+	var img = create(12, 12)
+	var data = [
+		[0,0,1,0,0,0,0,1,0,0,0,0],
+		[0,1,1,1,0,0,1,1,1,0,0,0],
+		[1,1,1,1,1,1,1,1,1,1,0,0],
+		[1,1,1,1,1,1,1,1,1,1,1,0],
+		[1,1,1,1,1,1,1,1,1,1,1,0],
+		[0,1,1,1,1,1,1,1,1,1,0,0],
+		[0,0,1,1,1,1,1,1,1,0,0,0],
+		[0,0,0,1,1,1,1,1,0,0,0,0],
+		[0,0,0,0,1,1,1,0,0,0,0,0],
+		[0,0,0,0,0,1,0,0,0,0,0,0],
+	]
+	for y in range(data.size()):
+		for x in range(data[y].size()):
+			if data[y][x] == 1:
+				img.set_pixel(x, y, PALETTE.hr)
+	return to_tex(img)
+
+# ═══════════════════════════════════
+# 🧑‍💼 NPC 专用（扩展接口）
+# ═══════════════════════════════════
+static func generate_npc_sprite(config: Dictionary) -> ImageTexture:
+	var src = create(16, 32)
+	
+	# ── Legs ──
+	r(src, 6, 25, 2, 5, Color("#3a3a4a"))
+	r(src, 9, 25, 2, 5, Color("#3a3a4a"))
+	p(src, 5, 25, Color("#2a2a3a"))
+	p(src, 8, 25, Color("#2a2a3a"))
+	p(src, 11, 25, Color("#2a2a3a"))
+	r(src, 5, 30, 3, 2, PALETTE.d_d)
+	r(src, 9, 30, 3, 2, PALETTE.d_d)
+	r(src, 5, 31, 3, 1, _darker(PALETTE.d_d, 0.2))
+	r(src, 9, 31, 3, 1, _darker(PALETTE.d_d, 0.2))
+	
+	# ── Body ──
+	var bc = config.get("body_color", PALETTE.pl_b)
+	var bs = config.get("body_shadow", PALETTE.pl_s)
+	r(src, 5, 15, 7, 10, bc)
+	r(src, 5, 16, 7, 8, bc)
+	p(src, 4, 15, _darker(bc, 0.25))
+	r(src, 5, 15, 1, 9, _darker(bc, 0.25))
+	r(src, 11, 15, 1, 9, _darker(bc, 0.25))
+	r(src, 5, 15, 7, 3, bs)
+	r(src, 5, 20, 7, 2, bs)
+	p(src, 5, 20, bc)
+	p(src, 11, 20, bc)
+	
+	# ── Head ──
+	fcirc(src, 8, 7, 5, PALETTE.s)
+	fcirc(src, 8, 7, 4, PALETTE.s_l)
+	for dy in range(-5, 6):
+		for dx in range(-5, 6):
+			if dx*dx + dy*dy <= 25 and dx*dx + dy*dy > 16:
+				p(src, 8 + dx, 7 + dy, _darker(PALETTE.s, 0.2))
+	
+	# ── Hair ──
+	var hc = config.get("hair_color", PALETTE.h_br)
+	var hl = config.get("hair_highlight", PALETTE.h_bl)
+	fcirc(src, 8, 3, 5, hc)
+	r(src, 4, 2, 8, 4, hc)
+	r(src, 3, 4, 4, 5, hc)
+	r(src, 10, 4, 3, 5, hc)
+	r(src, 5, 0, 6, 3, hc)
+	r(src, 4, 1, 8, 1, _darker(hc, 0.3))
+	p(src, 3, 3, _darker(hc, 0.3))
+	p(src, 13, 3, _darker(hc, 0.3))
+	p(src, 7, 0, hl)
+	p(src, 10, 0, hl)
+	
+	# ── Ears ──
+	p(src, 3, 7, PALETTE.s)
+	p(src, 13, 7, PALETTE.s)
+	
+	# ── Eyes ──
+	var ec = config.get("eye_color", PALETTE.e_d)
+	r(src, 6, 8, 2, 2, PALETTE.e_h)
+	r(src, 9, 8, 2, 2, PALETTE.e_h)
+	p(src, 6, 8, ec)
+	p(src, 9, 8, ec)
+	
+	# ── Eyebrows ──
+	r(src, 5, 6, 3, 1, hc)
+	r(src, 9, 6, 3, 1, hc)
+	
+	# ── Blush ──
+	p(src, 4, 11, PALETTE.s_b)
+	p(src, 12, 11, PALETTE.s_b)
+	
+	# ── Beard ──
+	if config.get("has_beard", false):
+		var bcol = config.get("beard_color", Color("#8a7a5a"))
+		r(src, 5, 12, 6, 2, bcol)
+		r(src, 4, 13, 8, 1, bcol)
+		p(src, 5, 14, bcol)
+		p(src, 10, 14, bcol)
+	
+	# ── Mouth ──
+	r(src, 6, 12, 4, 1, Color("#c06050"))
+	
+	return _upscale2x(src, 32, 64)
+# ============ Pet Sprite ============
+static func generate_pet_sprite(type) -> ImageTexture:
+	var src := Image.create(16, 32, false, Image.FORMAT_RGBA8)
+	src.fill(Color.TRANSPARENT)
+	
+	if type == 0:  # DOG
+		# Body (brown)
+		r(src, 4, 10, 10, 12, Color("#c07a4a"))
+		r(src, 3, 9, 11, 14, Color("#a06030"))
+		# Head
+		r(src, 5, 5, 6, 6, Color("#c07a4a"))
+		# Eyes
+		src.set_pixel(6, 7, Color("#202020"))
+		src.set_pixel(9, 7, Color("#202020"))
+		# Ears
+		r(src, 3, 3, 3, 6, Color("#a06030"))
+		r(src, 12, 3, 3, 6, Color("#a06030"))
+		# Tail
+		r(src, 2, 12, 3, 5, Color("#c07a4a"))
+		# Legs
+		src.set_pixel(5, 14, Color("#a06030"))
+		src.set_pixel(10, 14, Color("#a06030"))
+	elif type == 1:  # CAT
+		# Body (gray)
+		r(src, 4, 10, 12, 11, Color("#808080"))
+		r(src, 3, 9, 13, 10, Color("#606060"))
+		# Head
+		r(src, 5, 4, 6, 6, Color("#808080"))
+		# Eyes
+		src.set_pixel(6, 6, Color("#40ff40"))
+		src.set_pixel(9, 6, Color("#40ff40"))
+		# Ears (pointy)
+		r(src, 5, 2, 2, 4, Color("#808080"))
+		r(src, 9, 2, 2, 4, Color("#808080"))
+		# Tail (curved up)
+		r(src, 3, 8, 2, 5, Color("#808080"))
+		r(src, 2, 7, 2, 2, Color("#808080"))
+		# Legs
+		src.set_pixel(5, 14, Color("#606060"))
+		src.set_pixel(10, 14, Color("#606060"))
+	
+	return _upscale2x(src, 32, 64)

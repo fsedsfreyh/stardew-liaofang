@@ -1,0 +1,84 @@
+[gd_scene load_steps=2 format=3 uid="uid://fish_game"]
+
+[ext_resource type="Script" path="res://scripts/fishing/fish_game.gd" id="1"]
+
+[node name="FishGame" type="Control"]
+offset_left = 200
+offset_top = 120
+offset_right = 600
+offset_bottom = 480
+
+[node name="BgPanel" type="Panel" parent="."]
+offset_left = 40
+offset_top = 10
+offset_right = 360
+offset_bottom = 350
+modulate = Color(0.08, 0.08, 0.15, 0.95)
+
+[node name="TitleLabel" type="Label" parent="."]
+offset_left = 60
+offset_top = 20
+offset_right = 340
+offset_bottom = 48
+text = "目标: ???"
+theme_override_font_sizes/font_size = 16
+
+[node name="FishBarBg" type="Panel" parent="."]
+offset_left = 280
+offset_top = 50
+offset_right = 302
+offset_bottom = 340
+modulate = Color(0.15, 0.15, 0.25, 0.8)
+
+[node name="TargetZone" type="ColorRect" parent="."]
+offset_left = 274
+offset_top = 140
+offset_right = 308
+offset_bottom = 200
+color = Color(0, 0.8, 0, 0.25)
+
+[node name="HitBar" type="ColorRect" parent="."]
+offset_left = 270
+offset_top = 170
+offset_right = 312
+offset_bottom = 180
+color = Color(1, 1, 0, 0.3)
+
+[node name="FishBar" type="ColorRect" parent="."]
+offset_left = 280
+offset_top = 180
+offset_right = 302
+offset_bottom = 188
+color = Color(1, 0.6, 0.2, 1)
+
+[node name="PlayerBar" type="ColorRect" parent="."]
+offset_left = 272
+offset_top = 190
+offset_right = 310
+offset_bottom = 196
+color = Color(0.3, 0.8, 1, 1)
+
+[node name="InfoLabel" type="Label" parent="."]
+offset_left = 60
+offset_top = 300
+offset_right = 280
+offset_bottom = 320
+text = "按住空格/左键上浮，松手下沉"
+theme_override_font_sizes/font_size = 10
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+
+[node name="RetryBtn" type="Button" parent="."]
+offset_left = 120
+offset_top = 320
+offset_right = 220
+offset_bottom = 346
+text = "继续钓鱼"
+theme_override_font_sizes/font_size = 12
+
+[node name="CloseBtn" type="Button" parent="."]
+offset_left = 370
+offset_top = 14
+offset_right = 396
+offset_bottom = 30
+text = "X"
+theme_override_font_sizes/font_size = 12

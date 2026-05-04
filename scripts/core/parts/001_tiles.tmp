@@ -1,0 +1,231 @@
+# ─── Tilled Dirt Tile ──────────────
+static func _td(img: Image, v: int):
+	r(img, 0, 0, 16, 16, PALETTE.d_dd)
+	var seed = v * 7 + 13
+	for i in range(14):
+		var cx = (i * 9 + seed) % 14 + 1
+		var cy = (i * 11 + seed * 2) % 14 + 1
+		var c_arr = [PALETTE.d, PALETTE.d_l, PALETTE.d, PALETTE.d_ll, PALETTE.d_l, PALETTE.d, PALETTE.d_l, PALETTE.d_ll, PALETTE.d, PALETTE.d_l, PALETTE.d, PALETTE.d_ll, PALETTE.d_l, PALETTE.d]
+		p(img, cx, cy, c_arr[i])
+		if i % 2 == 0:
+			p(img, cx + 1, cy, c_arr[i])
+		if i % 4 == 0:
+			p(img, cx, cy + 1, c_arr[i])
+	for i in range(6):
+		var px = (i * 13 + seed * 3) % 14 + 1
+		var py = (i * 17 + seed * 5) % 14 + 1
+		var pc = PALETTE.d_w if i % 2 == 0 else PALETTE.d_hl
+		p(img, px, py, pc)
+		p(img, px + 1, py, pc)
+	for i in range(3):
+		var sx = (i * 19 + seed * 7) % 14 + 1
+		var sy = (i * 23 + seed * 11) % 14 + 1
+		p(img, sx, sy, PALETTE.p_h)
+		p(img, sx + 1, sy, PALETTE.p_h)
+	r(img, 0, 15, 16, 1, _darker(PALETTE.d_dd, 0.2))
+	r(img, 15, 0, 1, 16, _darker(PALETTE.d_dd, 0.2))
+	for x in range(0, 16, 1):
+		p(img, x, 14, _darker(PALETTE.d_dd, 0.08))
+		p(img, x, 15, _darker(PALETTE.d_dd, 0.25))
+	if v % 2 == 0:
+		var rx = 2 + (v * 3) % 12
+		var ry = 3 + (v * 5) % 10
+		r(img, rx, ry, 1, 5, PALETTE.d_w)
+		r(img, rx + 1, ry + 2, 1, 3, PALETTE.d_w)
+	else:
+		var rx = 7 + (v * 7) % 7
+		var ry = 2 + (v * 9) % 10
+		r(img, rx, ry, 1, 4, PALETTE.d_w)
+		r(img, rx - 1, ry + 1, 1, 2, PALETTE.d_w)
+
+# ─── Path Tile ─────────────────────
+static func _tp(img: Image, v: int):
+	r(img, 0, 0, 16, 16, PALETTE.p_dd)
+	var stones = [
+		[1,1,5,4],[7,1,7,3],[3,5,5,5],[10,5,5,3],
+		[1,10,5,4],[7,10,7,3],[12,9,3,5],[4,14,8,2],
+		[1,14,3,2],[14,1,2,3],[10,0,4,2],[0,5,3,3],
+		[2,5,2,2],[13,6,2,3]
+	]
+	for s in stones:
+		var col_arr = [PALETTE.p, PALETTE.p_l, PALETTE.p_s, PALETTE.p, PALETTE.p_h, PALETTE.p_l]
+		var col = col_arr[(s[0] + s[1] + v) % col_arr.size()]
+		r(img, s[0], s[1], s[2], s[3], col)
+		p(img, s[0] + 1, s[1] + 1, PALETTE.p_hl)
+		p(img, s[0], s[1], _lighter(col, 0.1))
+	for i in range(8):
+		var gx = (i * 9 + v * 5) % 14
+		var gy = (i * 13 + v * 3) % 14
+		var c = PALETTE.d_w if (i + v) % 3 == 0 else (PALETTE.p_dd if i % 2 == 0 else PALETTE.p_hl)
+		r(img, gx, gy, 2, 1, c)
+		if i % 2 == 0:
+			r(img, gx, gy + 1, 1, 2, c)
+		if i % 3 == 0:
+			r(img, gx + 2, gy, 1, 2, c)
+	for i in range(4):
+		var mx = (i * 17 + v * 3) % 14 + 1
+		var my = (i * 19 + v * 7) % 14 + 1
+		p(img, mx, my, PALETTE.g_n)
+		if i % 2 == 0:
+			p(img, mx + 1, my, PALETTE.g_d)
+
+# ─── Water Tile ────────────────────
+static func _tw(img: Image, v: int):
+	r(img, 0, 0, 16, 16, PALETTE.w_dd)
+	for y in range(16):
+		var t = float(y) / 15.0
+		var c = Color(
+			PALETTE.w_dd.r + (PALETTE.w_d.r - PALETTE.w_dd.r) * t,
+			PALETTE.w_dd.g + (PALETTE.w_d.g - PALETTE.w_dd.g) * t,
+			PALETTE.w_dd.b + (PALETTE.w_d.b - PALETTE.w_dd.b) * t, 1.0
+		)
+		for x in range(16):
+			var dx = (x + v) % 4
+			var mod = 0.02 if dx < 2 else -0.02
+			p(img, x, y, Color(c.r + mod, c.g + mod, c.b + mod, 1.0))
+	var wave_rows = [3, 6, 9, 12, 14]
+	var wave_cols = [PALETTE.w, PALETTE.w_l, PALETTE.w_f, PALETTE.w_hl, PALETTE.w_l]
+	for wi in range(wave_rows.size()):
+		var wy = wave_rows[wi] + (v % 2) * (wi % 2)
+		var wc = wave_cols[wi]
+		for x in range(0, 16, 3):
+			var xoff = (v + wi * 2) % 3
+			r(img, x + xoff, wy, 2, 1, wc)
+			if wi >= 3:
+				p(img, x + xoff + 1, wy + 1, _darker(wc, 0.3))
+	var sparkle = Color(1, 1, 1, 0.5)
+	var sparkle_b = Color(1, 1, 1, 0.35)
+	var spos = [[2,2],[14,4],[5,12],[13,10],[8,1],[3,9],[10,14],[1,7]]
+	for i in range(6):
+		var idx = (v + i * 5) % spos.size()
+		var sx = spos[idx][0] + (v % 2)
+		var sy = spos[idx][1] + (v % 3)
+		p(img, sx, sy, sparkle)
+		p(img, sx + 1, sy, sparkle_b)
+		if i % 2 == 0:
+			p(img, sx, sy + 1, sparkle_b)
+	for x in range(0, 16, 1):
+		p(img, x, 14, _darker(PALETTE.w_dd, 0.1))
+		p(img, x, 15, _darker(PALETTE.w_dd, 0.25))
+
+# ─── Flower Bed Tile ───────────────
+static func _tf(img: Image, v: int):
+	r(img, 0, 0, 16, 16, PALETTE.g)
+	for i in range(20):
+		var px = (i * 9 + v * 7) % 14 + 1
+		var py = (i * 11 + v * 3) % 14 + 1
+		p(img, px, py, PALETTE.g_n if i % 3 == 0 else PALETTE.g_d)
+	for i in range(6):
+		var gx = 1 + (i * 7 + v * 3) % 14
+		var gy = 8 + (i * 5) % 6
+		p(img, gx, gy, PALETTE.g_s)
+		p(img, gx, gy - 1, PALETTE.g_hl)
+	var fc = [PALETTE.f_pk, PALETTE.f_rs, PALETTE.f_y, PALETTE.f_pe, PALETTE.f_b, PALETTE.f_pu, PALETTE.f_o, PALETTE.f_r, PALETTE.f_w]
+	var positions = [[3,3],[11,3],[3,11],[11,11],[7,7],[1,7],[15,7],[7,1],[7,15]]
+	var used = 5 + (v % 4)
+	for i in range(used):
+		var idx = (v + i * 3) % positions.size()
+		var px = positions[idx][0]
+		var py = positions[idx][1]
+		var col = fc[(v + i) % fc.size()]
+		p(img, px, py, col)
+		p(img, px + 1, py, col)
+		p(img, px, py + 1, col)
+		p(img, px + 1, py + 1, col)
+		p(img, px, py, PALETTE.f_y)
+		p(img, px + 1, py + 1, _lighter(col, 0.2))
+
+# ─── Fence ─────────────────────────
+static func _tfn(img: Image):
+	r(img, 0, 0, 16, 16, PALETTE.fnd)
+	r(img, 0, 5, 16, 2, PALETTE.fnd)
+	r(img, 0, 5, 16, 1, PALETTE.fnl)
+	r(img, 0, 12, 16, 2, PALETTE.fnd)
+	r(img, 0, 12, 16, 1, PALETTE.fnl)
+	for y in range(1, 16, 4):
+		_hline(img, 2, 14, y, _darker(PALETTE.fnd, 0.15))
+	r(img, 3, 0, 3, 16, PALETTE.fnd)
+	r(img, 11, 0, 3, 16, PALETTE.fnd)
+	_vline(img, 4, 2, 14, _darker(PALETTE.fnd, 0.1))
+	_vline(img, 12, 2, 14, _darker(PALETTE.fnd, 0.1))
+	circ(img, 4, 6, 1, PALETTE.gt_d)
+	p(img, 4, 6, PALETTE.gt)
+	p(img, 12, 6, PALETTE.gt)
+	p(img, 4, 13, PALETTE.gt)
+	p(img, 12, 13, PALETTE.gt)
+	p(img, 4, 5, PALETTE.gs)
+	p(img, 12, 5, PALETTE.gs)
+	p(img, 4, 12, PALETTE.gs)
+	p(img, 12, 12, PALETTE.gs)
+	_vline(img, 0, 0, 15, _darker(PALETTE.fnd, 0.3))
+	_hline(img, 0, 15, 0, _darker(PALETTE.fnd, 0.3))
+	r(img, 0, 15, 16, 1, _darker(PALETTE.fnd, 0.2))
+
+# ─── House Wall ─────────────────────
+static func _twall(img: Image):
+	r(img, 0, 0, 16, 16, PALETTE.wl)
+	r(img, 0, 0, 16, 2, PALETTE.wb)
+	r(img, 15, 0, 1, 16, PALETTE.wb)
+	for y in range(3, 16, 4):
+		r(img, 0, y, 16, 1, PALETTE.wd)
+	for y in range(0, 16, 4):
+		for x in range(3, 16, 8):
+			p(img, x, y + 3, PALETTE.wd)
+	for y in range(2, 16, 4):
+		for x in range(7, 16, 8):
+			p(img, x, y + 3, PALETTE.wd)
+	for i in range(4):
+		var bx = (i * 7 + 2) % 14
+		var by = (i * 5 + 3) % 12
+		r(img, bx, by, 3, 2, PALETTE.db)
+	r(img, 0, 15, 16, 1, _darker(PALETTE.wl, 0.2))
+
+# ─── House Roof ─────────────────────
+static func _troof(img: Image):
+	r(img, 0, 0, 16, 16, PALETTE.r_d)
+	r(img, 0, 0, 16, 2, PALETTE.r)
+	_hline(img, 0, 15, 0, PALETTE.r_l)
+	for y in range(3, 16, 3):
+		r(img, 0, y, 16, 1, PALETTE.r)
+		for x in range(0, 16, 6):
+			p(img, x + 2, y, PALETTE.r_l)
+
+# ─── Door ───────────────────────────
+static func _tdoor(img: Image):
+	r(img, 0, 0, 16, 16, PALETTE.db)
+	r(img, 2, 1, 12, 14, PALETTE.dd)
+	r(img, 3, 2, 10, 12, PALETTE.db)
+	_vline(img, 5, 3, 13, PALETTE.dd)
+	_vline(img, 11, 3, 13, PALETTE.dd)
+	circ(img, 13, 8, 2, PALETTE.gt_d)
+	fcirc(img, 13, 8, 1, PALETTE.gb)
+	p(img, 13, 8, PALETTE.gs)
+	p(img, 13, 7, PALETTE.gt)
+
+# ─── Tree ───────────────────────────
+static func _tt(img: Image, v: int):
+	r(img, 6, 10, 4, 6, PALETTE.tk)
+	r(img, 6, 8, 4, 3, PALETTE.tkd)
+	r(img, 5, 14, 6, 2, PALETTE.tkl)
+	_vline(img, 7, 10, 15, _darker(PALETTE.tk, 0.1))
+	_vline(img, 9, 11, 14, PALETTE.tk_l)
+	fcirc(img, 8, 5, 7, PALETTE.lf_dd)
+	fcirc(img, 6, 2, 6, PALETTE.lf_d)
+	fcirc(img, 10, 3, 6, PALETTE.lf)
+	fcirc(img, 7, 4, 5, PALETTE.lf_l)
+	fcirc(img, 9, 1, 5, PALETTE.lf_ll)
+	fcirc(img, 8, 0, 4, PALETTE.lf_s)
+	fcirc(img, 5, 1, 4, PALETTE.lf_hl)
+	fcirc(img, 11, 1, 4, PALETTE.lf_hl)
+	p(img, 5, 2, PALETTE.g_ll)
+	p(img, 12, 2, PALETTE.g_ll)
+	p(img, 7, 0, PALETTE.lf_s)
+	p(img, 10, 0, PALETTE.lf_s)
+	p(img, 4, 3, PALETTE.lf_hl)
+	p(img, 13, 3, PALETTE.lf_hl)
+	p(img, 6, 0, PALETTE.g_hl)
+	p(img, 11, 0, PALETTE.g_hl)
+	p(img, 3, 8, _darker(PALETTE.lf_dd, 0.3))
+	p(img, 13, 8, _darker(PALETTE.lf_dd, 0.3))
+	p(img, 4, 9, _darker(PALETTE.lf_dd, 0.3))
+	p(img, 12, 9, _darker(PALETTE.lf_dd, 0.3))

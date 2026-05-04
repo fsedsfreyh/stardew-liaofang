@@ -1,0 +1,42 @@
+WorkerThreadPool: 20 threads, 6 max low-priority.
+Godot Engine v4.6.2.stable.official.71f334935 - https://godotengine.org
+TextServer: Added interface "Dummy"
+TextServer: Added interface "ICU / HarfBuzz / Graphite (Built-in)"
+Unrecognized output string "misc2" in mapping:
+030000008a2e0000dd10000000000000,Hand Held Legend GC Ultimate,a:b0,b:b2,back:b17,dpdown:b5,dpleft:b6,dpright:b7,dpup:b4,guide:b18,leftshoulder:b10,leftstick:b8,lefttrigger:a3,leftx:a0,lefty:a1,misc1:b19,misc2:b24,paddle1:b13,paddle2:b12,rightshoulder:b11,rightstick:b9,righttrigger:a4,rightx:a2,righty:a5,start:b16,x:b1,y:b3,platform:Windows,
+Unrecognized output string "misc2" in mapping:
+030000000d0f00000202000000000000,Horipad O Nintendo Switch 2 Controller,a:b1,b:b0,back:b8,dpdown:h0.4,dpleft:h0.8,dpright:h0.2,dpup:h0.1,guide:b12,leftshoulder:b4,leftstick:b10,lefttrigger:b6,leftx:a0,lefty:a1,misc1:b13,misc2:b14,rightshoulder:b5,rightstick:b11,righttrigger:b7,rightx:a2,righty:a3,start:b9,x:b3,y:b2,platform:Windows,
+Unrecognized output string "misc2" in mapping:
+030000000d0f00009601000000000000,Horipad Steam,a:b0,b:b1,back:b10,dpdown:h0.4,dpleft:h0.8,dpright:h0.2,dpup:h0.1,guide:b12,leftshoulder:b6,leftstick:b13,lefttrigger:b8,leftx:a0,lefty:a1,misc2:b2,paddle1:b5,paddle2:b15,paddle3:b18,paddle4:b19,rightshoulder:b7,rightstick:b14,righttrigger:b9,rightx:a3,righty:a4,start:b11,x:b3,y:b4,platform:Windows,
+Unrecognized output string "misc2" in mapping:
+030000007e0500006920000000000000,Nintendo Switch 2 Pro Controller,a:b0,b:b1,back:b14,dpdown:b8,dpleft:b10,dpright:b9,dpup:b11,guide:b16,leftshoulder:b12,leftstick:b15,lefttrigger:b13,leftx:a0,lefty:a1~,misc1:b17,misc2:b20,paddle1:b18,paddle2:b19,rightshoulder:b4,rightstick:b7,righttrigger:b5,rightx:a2,righty:a3~,start:b6,x:b2,y:b3,platform:Windows,
+Native OpenGL API detected: 3.3: ATI Technologies Inc. - Radeon RX 5500 XT
+Accessibility: window 0 adapter created.
+SDL: Init OK!
+Using "winink" pen tablet driver...
+Shader 'CanvasSdfShaderGLES3' SHA256: 77193f4e521ffb290f7a8f018048a4e8bf8c8a6d243a0af6193e5d8631b62b31
+Shader 'SkeletonShaderGLES3' SHA256: f12369e985bfcd603904cf7bfc8f3490ead0a9577fc6724e76c56cc165d799bb
+Shader 'ParticlesShaderGLES3' SHA256: 8cbea66ba89e0f6495b12c5b0a07855d5cc01504f87aaa95f0b11242de37b1dc
+Shader 'ParticlesCopyShaderGLES3' SHA256: af3f06d48bab5afad2de4dc3baf13987da4c7c8c546386a5f6d33d4dd7a2a823
+Shader 'CopyShaderGLES3' SHA256: 5c42bf265126c7577ad9ae03007868bf8e0ca9bc5da1a27bad5e18ce68864d34
+Shader 'CubemapFilterShaderGLES3' SHA256: 10c81261d7819cd5f4d4684f36a82cdc7597787023e74cfd024a6f2809fcdb93
+Shader 'GlowShaderGLES3' SHA256: 1ecfbf00f4a3e4038def7ee9a95cbb24ed86e685b75d547eaded44ff269bc113
+Shader 'PostShaderGLES3' SHA256: 3aa0393f11175fb32143ff4fb0c02faf2652566b04cf0fbe3f721cc908881f5f
+Shader 'FeedShaderGLES3' SHA256: aec7c7ebc93539b96d2c9f3c08c317426d4dfd42bdaf97834bad868b158b611b
+Shader 'CanvasShaderGLES3' SHA256: ef7a07ea987fb990b23fb899e80438f6ed14862f4baeab71e939477d5acc8dcc
+Shader 'CanvasOcclusionShaderGLES3' SHA256: bf025edf6e36ff9cdb6968b086d1a0f8ab13ac3b883240b469ca8946265eb1db
+Shader 'SceneShaderGLES3' SHA256: 48dcf7587979c86b9ecc7dc3493bac9f205b0b2ecdf9fd6a7e9364a5a7983f39
+Shader 'SkyShaderGLES3' SHA256: 774ee26a72ba0de7c97581b8778f8b1f2cda0aa27ff47a66bd0a0ff64af73d20
+OpenGL API 3.3.0 Core Profile Context 25.10.30.02.250923 - Compatibility - Using Device: ATI Technologies Inc. - Radeon RX 5500 XT
+
+TextServer: Primary interface set to: "ICU / HarfBuzz / Graphite (Built-in)".
+CORE API HASH: 4039755037
+EDITOR API HASH: 223528947
+SceneTreeFTI: traversal method DEFAULT
+Loading resource: C:/Users/Administrator/AppData/Roaming/Godot/editor_settings-4.6.tres
+EditorSettings: Load OK!
+EditorTheme: Generating new theme for the config '3810048042'.
+EditorTheme: Generating new icons.
+EditorTheme: Generating new fonts.
+EditorTheme: Generating new styles.
+Loaded system CA certificates

@@ -1,0 +1,8 @@
+SCRIPT ERROR: Parse Error: Mixed use of tabs and spaces for indentation.
+   at: GDScript::reload (res://scripts/farm/farm_scene.gd:1361)
+   GDScript backtrace (most recent call first):
+       [0] _go (res://simple_test.gd:10)
+ERROR: Failed to load script "res://scripts/farm/farm_scene.gd" with error "Parse error".
+   at: load (modules/gdscript/gdscript.cpp:2907)
+   GDScript backtrace (most recent call first):
+       [0] _go (res://simple_test.gd:10)

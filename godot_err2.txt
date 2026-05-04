@@ -1,0 +1,4 @@
+ERROR: Error parsing 'D:/龙虾/projects/stardew-liaofang/project.godot' at line 23: Unexpected identifier 'canvas_items' File might be corrupted.
+   at: _load_settings_text (core/config/project_settings.cpp:972)
+ERROR: Couldn't load file 'D:/龙虾/projects/stardew-liaofang/project.godot', error code 43.
+   at: _load_settings_text_or_binary (core/config/project_settings.cpp:1021)

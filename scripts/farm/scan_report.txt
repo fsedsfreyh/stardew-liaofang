@@ -1,0 +1,218 @@
+Total lines: 1024
+Problem lines found: 19
+
+=== Line 95 (quotes=1) [ODD_QUOTES(1), CHINESE_QUOTE(鏉")] ===
+  pos=3 char='浣' U+6D63
+  pos=4 char='撳' U+64B3
+  pos=5 char='姏' U+59CF
+  pos=6 char='鏉' U+93C9
+TEXT: 	# 浣撳姏鏉"	var st_bar_bg = Panel.new()
+
+=== Line 448 (quotes=5) [ODD_QUOTES(5)] ===
+  pos=19 char='鉂' U+9242
+  pos=41 char='濂' U+6FC2
+  pos=42 char='芥' U+82A5
+  pos=43 char='劅' U+5285
+  pos=44 char='搴' U+6434
+TEXT: 	aff_label.text = "鉂"" + str(hearts) + " 濂芥劅搴"
+
+=== Line 561 (quotes=2) [CHINESE_QUOTE(锛",鍦")] ===
+  pos=3 char='寤' U+5BE4
+  pos=4 char='栬' U+682C
+  pos=5 char='姵' U+59F5
+  pos=6 char='鏃' U+93C3
+  pos=7 char='ョ' U+30E7
+  pos=8 char='▼' U+25BC
+  pos=9 char='锛' U+951B
+  pos=22 char='鍦' U+9366
+  pos=23 char='ㄥ' U+3125
+  pos=24 char='啘' U+5558
+  pos=25 char='鍦' U+9366
+TEXT: 	# 寤栬姵鏃ョ▼锛"2:00-18:00 鍦ㄥ啘鍦"	_update_liaofang_presence(hour)
+
+=== Line 566 (quotes=3) [ODD_QUOTES(3), CHINESE_QUOTE(灞")] ===
+  pos=3 char='瀛' U+701B
+  pos=4 char='ｈ' U+FF48
+  pos=5 char='妭' U+59AD
+  pos=6 char='鑹' U+9479
+  pos=7 char='茶' U+8336
+  pos=8 char='皟' U+769F
+  pos=9 char='瑕' U+7455
+  pos=10 char='嗙' U+55D9
+  pos=11 char='洊' U+6D0A
+  pos=12 char='灞' U+705E
+TEXT: 	# 瀛ｈ妭鑹茶皟瑕嗙洊灞"	var overlay = get_node_or_null("SeasonOverlay")
+
+=== Line 575 (quotes=1) [ODD_QUOTES(1), CHINESE_QUOTE(鏄")] ===
+  pos=7 char='鏄' U+93C4
+  pos=11 char='娣' U+5A23
+  pos=12 char='＄' U+FF04
+  pos=13 char='矇' U+77C7
+TEXT: 		0: # 鏄"- 娣＄矇
+
+=== Line 577 (quotes=1) [ODD_QUOTES(1), CHINESE_QUOTE(澶")] ===
+  pos=7 char='澶' U+6FB6
+  pos=11 char='娣' U+5A23
+  pos=12 char='￠' U+FFE0
+  pos=13 char='噾' U+567E
+TEXT: 		1: # 澶"- 娣￠噾
+
+=== Line 579 (quotes=1) [ODD_QUOTES(1), CHINESE_QUOTE(绉")] ===
+  pos=7 char='绉' U+7EC9
+  pos=11 char='娣' U+5A23
+  pos=12 char='℃' U+2103
+  pos=13 char='\ue7f6' U+E7F6
+TEXT: 		2: # 绉"- 娣℃
+
+=== Line 581 (quotes=2) [CHINESE_QUOTE(鍐",鐧")] ===
+  pos=7 char='鍐' U+9350
+  pos=11 char='娣' U+5A23
+  pos=12 char='¤' U+00A4
+  pos=13 char='摑' U+6451
+  pos=15 char='鐧' U+9427
+TEXT: 		3: # 鍐"- 娣¤摑/鐧"			overlay.color = Color(0.9, 0.95, 1.0, 0.06)
+
+=== Line 738 (quotes=2) [CHINESE_QUOTE(鏍",鎶")] ===
+  pos=2 char='鐗' U+9417
+  pos=3 char='╁' U+2541
+  pos=4 char='搧' U+6427
+  pos=5 char='渚' U+6E1A
+  pos=6 char='ц' U+0446
+  pos=7 char='竟' U+7ADF
+  pos=8 char='鏍' U+93CD
+  pos=12 char='鏅' U+93C5
+  pos=13 char='ㄩ' U+3129
+  pos=14 char='棿' U+68FF
+  pos=15 char='绠' U+7EE0
+  pos=16 char='€' U+20AC
+  pos=17 char='鎶' U+93B6
+TEXT: # 鐗╁搧渚ц竟鏍"& 鏅ㄩ棿绠€鎶"func _refresh_inv_panel():
+
+=== Line 761 (quotes=3) [ODD_QUOTES(3)] ===
+  pos=15 char='📋' U+1F4CB
+  pos=17 char='第' U+7B2C
+  pos=20 char='天' U+5929
+  pos=22 char='·' U+00B7
+  pos=27 char='瀛' U+701B
+TEXT: 	title.text = "📋 第%d天 · %s"瀛" % [day, season_names[season]]
+
+=== Line 762 (quotes=3) [ODD_QUOTES(3)] ===
+  pos=14 char='浠' U+6D60
+  pos=15 char='婂' U+5A42
+  pos=16 char='ぉ' U+3049
+  pos=17 char='澶' U+6FB6
+  pos=18 char='╂' U+2542
+  pos=19 char='皵' U+76B5
+  pos=20 char='锛' U+951B
+TEXT: 	body.text = "浠婂ぉ澶╂皵锛"s\n\n" % w_names[weather]
+
+=== Line 767 (quotes=3) [ODD_QUOTES(3)] ===
+  pos=15 char='馃' U+9983
+  pos=16 char='挄' U+6304
+  pos=18 char='寤' U+5BE4
+  pos=19 char='栬' U+682C
+  pos=20 char='姵' U+59F5
+  pos=21 char='濂' U+6FC2
+  pos=22 char='芥' U+82A5
+  pos=23 char='劅' U+5285
+  pos=24 char='锛' U+951B
+  pos=27 char='鉂' U+9242
+  pos=28 char='\ue602' U+E602
+TEXT: 	body.text += "馃挄 寤栬姵濂芥劅锛"d鉂n" % heart
+
+=== Line 779 (quotes=1) [ODD_QUOTES(1), CHINESE_QUOTE(鈫")] ===
+  pos=2 char='鍐' U+9350
+  pos=3 char='滃' U+6EC3
+  pos=4 char='満' U+6E80
+  pos=5 char='鍑' U+9351
+  pos=6 char='哄' U+54C4
+  pos=7 char='彛' U+5F5B
+  pos=9 char='鈫' U+922B
+  pos=11 char='灏' U+704F
+  pos=12 char='忛' U+5FDB
+  pos=13 char='晣' U+6663
+TEXT: # 鍐滃満鍑哄彛 鈫"灏忛晣
+
+=== Line 781 (quotes=1) [ODD_QUOTES(1), CHINESE_QUOTE(闀")] ===
+  pos=3 char='宸' U+5BB8
+  pos=4 char='︿' U+FE3F
+  pos=5 char='笅' U+7B05
+  pos=6 char='鍑' U+9351
+  pos=7 char='哄' U+54C4
+  pos=8 char='彛' U+5F5B
+  pos=9 char='鈫' U+922B
+  pos=10 char='掑' U+6391
+  pos=11 char='皬' U+76AC
+  pos=12 char='闀' U+95C0
+TEXT: 	# 宸︿笅鍑哄彛鈫掑皬闀"	var town_exit = Area2D.new()
+
+=== Line 792 (quotes=1) [ODD_QUOTES(1), CHINESE_QUOTE(鏋")] ===
+  pos=3 char='鍙' U+9359
+  pos=4 char='充' U+5145
+  pos=5 char='笂' U+7B02
+  pos=6 char='鍑' U+9351
+  pos=7 char='哄' U+54C4
+  pos=8 char='彛' U+5F5B
+  pos=9 char='鈫' U+922B
+  pos=10 char='掓' U+6393
+  pos=11 char='．' U+FF0E
+  pos=12 char='鏋' U+93CB
+TEXT: 	# 鍙充笂鍑哄彛鈫掓．鏋"	var forest_exit = Area2D.new()
+
+=== Line 806 (quotes=1) [ODD_QUOTES(1), CHINESE_QUOTE(锛")] ===
+  pos=3 char='鍙' U+9359
+  pos=4 char='充' U+5145
+  pos=5 char='笂' U+7B02
+  pos=6 char='鐭' U+942D
+  pos=7 char='挎' U+630E
+  pos=8 char='礊' U+790A
+  pos=9 char='鍑' U+9351
+  pos=10 char='哄' U+54C4
+  pos=11 char='彛' U+5F5B
+  pos=12 char='锛' U+951B
+  pos=13 char='堝' U+581D
+  pos=14 char='\ue6e7' U+E6E7
+  pos=15 char='鏋' U+93CB
+  pos=16 char='滃' U+6EC3
+  pos=17 char='凡' U+51E1
+  pos=18 char='瑙' U+7459
+  pos=19 char='ｉ' U+FF49
+  pos=20 char='攣' U+6523
+  pos=21 char='锛' U+951B
+TEXT: 	# 鍙充笂鐭挎礊鍑哄彛锛堝鏋滃凡瑙ｉ攣锛"	_setup_mine_exit()
+
+=== Line 840 (quotes=3) [ODD_QUOTES(3), CHINESE_QUOTE(鎴")] ===
+  pos=3 char='寮' U+5BEE
+  pos=4 char='瑰' U+7470
+  pos=5 char='嚭' U+56AD
+  pos=6 char='閽' U+95BD
+  pos=7 char='撻' U+64BB
+  pos=8 char='奔' U+5954
+  pos=9 char='灏' U+704F
+  pos=10 char='忔' U+5FD4
+  pos=11 char='父' U+7236
+  pos=12 char='鎴' U+93B4
+TEXT: 	# 寮瑰嚭閽撻奔灏忔父鎴"	var fish_game = get_node_or_null("HUD/FishGame")
+
+=== Line 951 (quotes=1) [ODD_QUOTES(1), CHINESE_QUOTE(锔")] ===
+  pos=2 char='馃' U+9983
+  pos=3 char='對' U+5C0D
+  pos=4 char='锔' U+9514
+  pos=6 char='澶' U+6FB6
+  pos=7 char='╂' U+2542
+  pos=8 char='皵' U+76B5
+  pos=9 char='鏁' U+93C1
+  pos=10 char='堟' U+581F
+  pos=11 char='灉' U+7049
+TEXT: # 馃對锔"澶╂皵鏁堟灉
+
+=== Line 961 (quotes=1) [ODD_QUOTES(1), CHINESE_QUOTE(瀛")] ===
+  pos=3 char='娓' U+5A13
+  pos=4 char='呴' U+5474
+  pos=5 char='櫎' U+6ACE
+  pos=6 char='鏃' U+93C3
+  pos=7 char='х' U+0445
+  pos=8 char='矑' U+77D1
+  pos=9 char='瀛' U+701B
+TEXT: 	# 娓呴櫎鏃х矑瀛"	for c in weather_layer.get_children():
+

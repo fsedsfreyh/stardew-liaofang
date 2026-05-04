@@ -1,0 +1,18 @@
+Line 19, pos 7: PUA U+E1F1
+  Full line: # 鏂版墜寮曞
+
+Line 682, pos 7: PUA U+E1F1
+  Full line: # 鏂版墜寮曞
+
+Line 718, pos 3: PUA U+E1BB
+  Full line: # 閭欢绯荤粺
+
+Line 803, pos 11: PUA U+E51D
+  Full line: 	# 閽撻奔鐐癸紙姹犲杈癸級
+
+Line 820, pos 4: PUA U+E1BD
+  Full line: 	# 娴爣鎻愮ず
+
+Line 987, pos 10: PUA U+E046
+  Full line: 	# 鎸佺画涓嬭惤寰幆
+

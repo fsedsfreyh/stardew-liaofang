@@ -1,0 +1,49 @@
+[gd_scene load_steps=2 format=3 uid="uid://cooking_ui"]
+
+[ext_resource type="Script" path="res://scripts/ui/cooking_ui.gd" id="1_xxx"]
+
+[node name="CookingUI" type="CanvasLayer"]
+script = ExtResource("1_xxx")
+
+[node name="Panel" type="ColorRect"]
+anchors_preset = 0
+offset_left = 200.0
+offset_top = 100.0
+offset_right = 1080.0
+offset_bottom = 620.0
+color = Color(0.164, 0.09, 0.043, 0.92)
+
+[node name="Title" type="Label" parent="Panel"]
+offset_left = 300.0
+offset_top = 20.0
+offset_right = 580.0
+offset_bottom = 55.0
+theme_override_font_sizes/font_size = 22
+theme_override_colors/font_color = Color(0.941, 0.904, 0.576, 1)
+text = "🍳 厨房"
+
+[node name="RecipeList" type="ItemList" parent="Panel"]
+offset_left = 20.0
+offset_top = 70.0
+offset_right = 860.0
+offset_bottom = 400.0
+theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+
+[node name="CookBtn" type="Button" parent="Panel"]
+offset_left = 320.0
+offset_top = 420.0
+offset_right = 560.0
+offset_bottom = 460.0
+text = "👨‍🍳 烹饪"
+theme_override_font_sizes/font_size = 16
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+
+[node name="CloseBtn" type="Button" parent="Panel"]
+offset_left = 740.0
+offset_top = 420.0
+offset_right = 840.0
+offset_bottom = 460.0
+text = "✕ 关闭"
+theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(1, 1, 1, 1)

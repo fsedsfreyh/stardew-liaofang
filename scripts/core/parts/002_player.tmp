@@ -1,0 +1,122 @@
+# ═══════════════════════════════════
+# 👤 角色（16×32 → 2x → 32×64）
+# ═══════════════════════════════════
+
+# ─── 玩家角色（增强版） ────────────
+static func generate_player_sprite(dir: String = "down", frame: int = 0) -> ImageTexture:
+	var src = create(16, 32)
+	var lo = 0
+	if frame == 1: lo = 1
+	elif frame == 3: lo = -1
+	
+	var outline = _darker(PALETTE.pl_b, 0.3)
+	r(src, 4, 16, 1, 9, outline)
+	r(src, 12, 16, 1, 9, outline)
+	
+	# ── Legs (jeans) ──
+	if frame == 0 or frame == 2:
+		r(src, 6, 25, 2, 5, PALETTE.je)
+		r(src, 9, 25, 2, 5, PALETTE.je)
+		p(src, 6, 25, PALETTE.je_s)
+		p(src, 8, 25, PALETTE.je_s)
+		p(src, 11, 25, PALETTE.je_s)
+		_vline(src, 7, 26, 29, PALETTE.je_l)
+		_vline(src, 10, 26, 29, PALETTE.je_l)
+		r(src, 5, 30, 3, 2, PALETTE.h_a)
+		r(src, 9, 30, 3, 2, PALETTE.h_a)
+		r(src, 5, 31, 3, 1, _darker(PALETTE.h_a, 0.2))
+		r(src, 9, 31, 3, 1, _darker(PALETTE.h_a, 0.2))
+		p(src, 5, 30, _lighter(PALETTE.h_a, 0.15))
+		p(src, 9, 30, _lighter(PALETTE.h_a, 0.15))
+	else:
+		r(src, 6 + lo, 25, 2, 5, PALETTE.je)
+		r(src, 9 - lo, 25, 2, 5, PALETTE.je)
+		_vline(src, 7 + lo, 26, 29, PALETTE.je_l)
+		_vline(src, 10 - lo, 26, 29, PALETTE.je_l)
+		r(src, 5 + lo, 30, 3, 2, PALETTE.h_a)
+		r(src, 9 - lo, 30, 3, 2, PALETTE.h_a)
+		r(src, 5 + lo, 31, 3, 1, _darker(PALETTE.h_a, 0.2))
+		r(src, 9 - lo, 31, 3, 1, _darker(PALETTE.h_a, 0.2))
+		p(src, 5 + lo, 30, _lighter(PALETTE.h_a, 0.15))
+		p(src, 9 - lo, 30, _lighter(PALETTE.h_a, 0.15))
+	
+	# ── Body (blue shirt with 3-color + shadow) ──
+	r(src, 5, 15, 7, 10, PALETTE.pl_b)
+	r(src, 5, 15, 7, 3, PALETTE.pl_s)
+	r(src, 5, 22, 7, 1, PALETTE.pl_s)
+	r(src, 5, 17, 7, 5, PALETTE.pl_l)
+	p(src, 4, 15, outline)
+	p(src, 12, 15, outline)
+	# 衣服阴影
+	_vline(src, 5, 18, 24, _darker(PALETTE.pl_b, 0.15))
+	
+	# ── Arms (skin) ──
+	if frame == 0 or frame == 2:
+		r(src, 3, 16, 2, 4, PALETTE.s_s)
+		r(src, 12, 16, 2, 4, PALETTE.s_s)
+		p(src, 3, 16, _darker(PALETTE.s_s, 0.15))
+		p(src, 13, 16, _darker(PALETTE.s_s, 0.15))
+	else:
+		var swing = lo * 2
+		r(src, 3 - swing, 16, 2, 4, PALETTE.s_s)
+		r(src, 12 + swing, 16, 2, 4, PALETTE.s_s)
+		p(src, 3 - swing, 16, _darker(PALETTE.s_s, 0.15))
+		p(src, 13 + swing, 16, _darker(PALETTE.s_s, 0.15))
+	
+	# ── Head ──
+	fcirc(src, 8, 7, 5, PALETTE.s)
+	fcirc(src, 8, 7, 4, PALETTE.s_l)
+	fcirc(src, 8, 7, 3, PALETTE.s_ll)
+	for dy in range(-5, 6):
+		for dx in range(-5, 6):
+			if dx*dx + dy*dy <= 25 and dx*dx + dy*dy > 16:
+				p(src, 8 + dx, 7 + dy, _darker(PALETTE.s, 0.2))
+	
+	# ── Hair: brown left-parted (4色渐变) ──
+	fcirc(src, 8, 3, 5, PALETTE.h_brd)
+	r(src, 4, 2, 8, 4, PALETTE.h_br)
+	r(src, 3, 4, 4, 5, PALETTE.h_br)
+	r(src, 10, 4, 3, 5, PALETTE.h_br)
+	r(src, 5, 0, 6, 3, PALETTE.h_brd)
+	r(src, 4, 1, 8, 1, PALETTE.h_brl)
+	p(src, 3, 3, _darker(PALETTE.h_br, 0.3))
+	p(src, 13, 3, _darker(PALETTE.h_br, 0.3))
+	p(src, 7, 0, PALETTE.h_bl)
+	p(src, 10, 0, PALETTE.h_bl)
+	p(src, 4, 2, PALETTE.h_bll)
+	p(src, 11, 2, PALETTE.h_bll)
+	
+	# ── Ears ──
+	p(src, 3, 7, PALETTE.s_s)
+	p(src, 13, 7, PALETTE.s_s)
+	
+	# ── Eyes (2×2 white + 1px pupil + highlight) ──
+	var eo = 0
+	if dir == "left": eo = -1
+	elif dir == "right": eo = 1
+	r(src, 6 + eo, 8, 2, 2, PALETTE.e_h)
+	r(src, 9 + eo, 8, 2, 2, PALETTE.e_h)
+	p(src, 6 + eo, 8, PALETTE.e_d)
+	p(src, 9 + eo, 8, PALETTE.e_d)
+	p(src, 6 + eo, 8, PALETTE.e_hl)
+	p(src, 9 + eo, 8, PALETTE.e_hl)
+	
+	# ── Eyebrows ──
+	r(src, 5 + eo, 6, 3, 1, PALETTE.h_brl)
+	r(src, 9 + eo, 6, 3, 1, PALETTE.h_brl)
+	
+	# ── Blush (semi-transparent) ──
+	p(src, 4, 11, PALETTE.s_b)
+	p(src, 12, 11, PALETTE.s_b)
+	p(src, 4, 10, PALETTE.s_rs)
+	p(src, 12, 10, PALETTE.s_rs)
+	
+	# ── Nose shadow ──
+	p(src, 8, 10, _darker(PALETTE.s, 0.1))
+	
+	# ── Mouth ──
+	if dir == "down":
+		p(src, 8, 12, Color("#c06050"))
+	p(src, 8, 12, Color("#c06050"))
+	
+	return _upscale2x(src, 32, 64)

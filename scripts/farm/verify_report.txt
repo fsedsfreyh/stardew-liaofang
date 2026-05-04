@@ -1,0 +1,271 @@
+Total lines: 1024
+
+Line 95: ODD QUOTES (1) -> 	# 浣撳姏鏉"	var st_bar_bg = Panel.new()
+Line 448: ODD QUOTES (5) -> 	aff_label.text = "鉂"" + str(hearts) + " 濂芥劅搴"
+Line 566: ODD QUOTES (3) -> 	# 瀛ｈ妭鑹茶皟瑕嗙洊灞"	var overlay = get_node_or_null("SeasonOverlay")
+Line 575: ODD QUOTES (1) -> 		0: # 鏄"- 娣＄矇
+Line 577: ODD QUOTES (1) -> 		1: # 澶"- 娣￠噾
+Line 579: ODD QUOTES (1) -> 		2: # 绉"- 娣℃
+Line 761: ODD QUOTES (3) -> 	title.text = "📋 第%d天 · %s"瀛" % [day, season_names[season]]
+Line 762: ODD QUOTES (3) -> 	body.text = "浠婂ぉ澶╂皵锛"s\n\n" % w_names[weather]
+Line 767: ODD QUOTES (3) -> 	body.text += "馃挄 寤栬姵濂芥劅锛"d鉂n" % heart
+Line 779: ODD QUOTES (1) -> # 鍐滃満鍑哄彛 鈫"灏忛晣
+Line 781: ODD QUOTES (1) -> 	# 宸︿笅鍑哄彛鈫掑皬闀"	var town_exit = Area2D.new()
+Line 792: ODD QUOTES (1) -> 	# 鍙充笂鍑哄彛鈫掓．鏋"	var forest_exit = Area2D.new()
+Line 806: ODD QUOTES (1) -> 	# 鍙充笂鐭挎礊鍑哄彛锛堝鏋滃凡瑙ｉ攣锛"	_setup_mine_exit()
+Line 840: ODD QUOTES (3) -> 	# 寮瑰嚭閽撻奔灏忔父鎴"	var fish_game = get_node_or_null("HUD/FishGame")
+Line 951: ODD QUOTES (1) -> # 馃對锔"澶╂皵鏁堟灉
+Line 961: ODD QUOTES (1) -> 	# 娓呴櫎鏃х矑瀛"	for c in weather_layer.get_children():
+
+Line 89: still has '馃' -> 	gold_label.text = "馃挵 " + str(Inventory.gold) + " G"
+  pos 20: U+9983 '馃'
+  pos 21: U+6335 '挵'
+Line 92: still has '馃' -> 		gold_label.text = "馃挵 " + str(Inventory.gold) + " G"
+  pos 21: U+9983 '馃'
+  pos 22: U+6335 '挵'
+Line 162: still has '馃' -> 	mail_btn.text = "馃摤"
+  pos 18: U+9983 '馃'
+  pos 19: U+6464 '摤'
+Line 726: still has '馃' -> 		btn.text = "馃摤" if unread == 0 else "馃摣 [%d]" % unread
+  pos 14: U+9983 '馃'
+  pos 15: U+6464 '摤'
+  pos 39: U+9983 '馃'
+  pos 40: U+6463 '摣'
+Line 760: still has '馃' -> 	var w_names = ["鈽€锔"鏅", "鈽侊笍 闃", "馃導锔"闆", "鉂勶笍 闆"]
+  pos 17: U+923D '鈽'
+  pos 18: U+20AC '€'
+  pos 19: U+9514 '锔'
+  pos 21: U+93C5 '鏅'
+  pos 26: U+923D '鈽'
+  pos 27: U+4F8A '侊'
+  pos 28: U+7B0D '笍'
+  pos 30: U+95C3 '闃'
+  pos 35: U+9983 '馃'
+  pos 36: U+5C0E '導'
+  pos 37: U+9514 '锔'
+  pos 39: U+95C6 '闆'
+  pos 44: U+9242 '鉂'
+  pos 45: U+52F6 '勶'
+  pos 46: U+7B0D '笍'
+  pos 48: U+95C6 '闆'
+Line 765: still has '馃' -> 		if unread > 0: body.text += "馃摣 浣犳湁 %d 灏佹湭璇婚偖浠禱n\n" % unread
+  pos 31: U+9983 '馃'
+  pos 32: U+6463 '摣'
+  pos 34: U+6D63 '浣'
+  pos 35: U+72B3 '犳'
+  pos 36: U+6E41 '湁'
+  pos 41: U+704F '灏'
+  pos 42: U+4F79 '佹'
+  pos 43: U+6E6D '湭'
+  pos 44: U+7487 '璇'
+  pos 45: U+5A5A '婚'
+  pos 46: U+5056 '偖'
+  pos 47: U+6D60 '浠'
+  pos 48: U+79B1 '禱'
+Line 767: still has '馃' -> 	body.text += "馃挄 寤栬姵濂芥劅锛"d鉂n" % heart
+  pos 15: U+9983 '馃'
+  pos 16: U+6304 '挄'
+  pos 18: U+5BE4 '寤'
+  pos 19: U+682C '栬'
+  pos 20: U+59F5 '姵'
+  pos 21: U+6FC2 '濂'
+  pos 22: U+82A5 '芥'
+  pos 23: U+5285 '劅'
+  pos 24: U+951B '锛'
+  pos 27: U+9242 '鉂'
+  pos 28: U+E602 ''
+Line 873: still has '馃' -> 		lock.text = "馃敀 鍩庡寳鐭挎礊锛堥渶鍦ㄥ晢搴楄喘涔板叆鍦哄埜锛"
+  pos 15: U+9983 '馃'
+  pos 16: U+6540 '敀'
+  pos 18: U+9369 '鍩'
+  pos 19: U+5EA1 '庡'
+  pos 20: U+5BF3 '寳'
+  pos 21: U+942D '鐭'
+  pos 22: U+630E '挎'
+  pos 23: U+790A '礊'
+  pos 24: U+951B '锛'
+  pos 25: U+5825 '堥'
+  pos 26: U+6E36 '渶'
+  pos 27: U+9366 '鍦'
+  pos 28: U+3125 'ㄥ'
+  pos 29: U+6662 '晢'
+  pos 30: U+6434 '搴'
+  pos 31: U+6944 '楄'
+  pos 32: U+5598 '喘'
+  pos 33: U+6D94 '涔'
+  pos 34: U+677F '板'
+  pos 35: U+53C6 '叆'
+  pos 36: U+9366 '鍦'
+  pos 37: U+54C4 '哄'
+  pos 38: U+57DC '埜'
+  pos 39: U+951B '锛'
+Line 907: still has '馃' -> 		_show_notice("馃悢 楦¤垗浜у嚭 2 涓浮铔嬶紒")
+  pos 16: U+9983 '馃'
+  pos 17: U+60A2 '悢'
+  pos 19: U+6966 '楦'
+  pos 20: U+00A4 '¤'
+  pos 21: U+5797 '垗'
+  pos 22: U+6D5C '浜'
+  pos 23: U+0443 'у'
+  pos 24: U+56AD '嚭'
+  pos 28: U+6D93 '涓'
+  pos 29: U+E048 ''
+  pos 30: U+6D6E '浮'
+  pos 31: U+94D4 '铔'
+  pos 32: U+5B36 '嬶'
+  pos 33: U+7D12 '紒'
+Line 910: still has '馃' -> 		_show_notice("馃悇 鐗涙浜у嚭 2 鐡剁墰濂讹紒")
+  pos 16: U+9983 '馃'
+  pos 17: U+6087 '悇'
+  pos 19: U+9417 '鐗'
+  pos 20: U+6D99 '涙'
+  pos 21: U+E5DF ''
+  pos 22: U+6D5C '浜'
+  pos 23: U+0443 'у'
+  pos 24: U+56AD '嚭'
+  pos 28: U+9421 '鐡'
+  pos 29: U+5241 '剁'
+  pos 30: U+58B0 '墰'
+  pos 31: U+6FC2 '濂'
+  pos 32: U+8BB9 '讹'
+  pos 33: U+7D12 '紒'
+Line 951: still has '馃' -> # 馃對锔"澶╂皵鏁堟灉
+  pos 2: U+9983 '馃'
+  pos 3: U+5C0D '對'
+  pos 4: U+9514 '锔'
+  pos 6: U+6FB6 '澶'
+  pos 7: U+2542 '╂'
+  pos 8: U+76B5 '皵'
+  pos 9: U+93C1 '鏁'
+  pos 10: U+581F '堟'
+  pos 11: U+7049 '灉'
+Line 448: still has '鉂' -> 	aff_label.text = "鉂"" + str(hearts) + " 濂芥劅搴"
+  pos 19: U+9242 '鉂'
+  pos 41: U+6FC2 '濂'
+  pos 42: U+82A5 '芥'
+  pos 43: U+5285 '劅'
+  pos 44: U+6434 '搴'
+Line 760: still has '鉂' -> 	var w_names = ["鈽€锔"鏅", "鈽侊笍 闃", "馃導锔"闆", "鉂勶笍 闆"]
+  pos 17: U+923D '鈽'
+  pos 18: U+20AC '€'
+  pos 19: U+9514 '锔'
+  pos 21: U+93C5 '鏅'
+  pos 26: U+923D '鈽'
+  pos 27: U+4F8A '侊'
+  pos 28: U+7B0D '笍'
+  pos 30: U+95C3 '闃'
+  pos 35: U+9983 '馃'
+  pos 36: U+5C0E '導'
+  pos 37: U+9514 '锔'
+  pos 39: U+95C6 '闆'
+  pos 44: U+9242 '鉂'
+  pos 45: U+52F6 '勶'
+  pos 46: U+7B0D '笍'
+  pos 48: U+95C6 '闆'
+Line 767: still has '鉂' -> 	body.text += "馃挄 寤栬姵濂芥劅锛"d鉂n" % heart
+  pos 15: U+9983 '馃'
+  pos 16: U+6304 '挄'
+  pos 18: U+5BE4 '寤'
+  pos 19: U+682C '栬'
+  pos 20: U+59F5 '姵'
+  pos 21: U+6FC2 '濂'
+  pos 22: U+82A5 '芥'
+  pos 23: U+5285 '劅'
+  pos 24: U+951B '锛'
+  pos 27: U+9242 '鉂'
+  pos 28: U+E602 ''
+Line 769: still has '鉂' -> 	elif weather == 3: body.text += "\n鉂勶笍 闆ぉ鎻愮ず锛氫粖澶╀笉鑳借€曚綔锛"
+  pos 36: U+9242 '鉂'
+  pos 37: U+52F6 '勶'
+  pos 38: U+7B0D '笍'
+  pos 40: U+95C6 '闆'
+  pos 41: U+E044 ''
+  pos 42: U+3049 'ぉ'
+  pos 43: U+93BB '鎻'
+  pos 44: U+612E '愮'
+  pos 45: U+305A 'ず'
+  pos 46: U+951B '锛'
+  pos 47: U+6C2B '氫'
+  pos 48: U+7C96 '粖'
+  pos 49: U+6FB6 '澶'
+  pos 50: U+2540 '╀'
+  pos 51: U+7B09 '笉'
+  pos 52: U+9473 '鑳'
+  pos 53: U+501F '借'
+  pos 54: U+20AC '€'
+  pos 55: U+66DA '曚'
+  pos 56: U+7D94 '綔'
+  pos 57: U+951B '锛'
+Line 561: still has '寤栬' -> 	# 寤栬姵鏃ョ▼锛"2:00-18:00 鍦ㄥ啘鍦"	_update_liaofang_presence(hour)
+  pos 3: U+5BE4 '寤'
+  pos 4: U+682C '栬'
+  pos 5: U+59F5 '姵'
+  pos 6: U+93C3 '鏃'
+  pos 7: U+30E7 'ョ'
+  pos 8: U+25BC '▼'
+  pos 9: U+951B '锛'
+  pos 22: U+9366 '鍦'
+  pos 23: U+3125 'ㄥ'
+  pos 24: U+5558 '啘'
+  pos 25: U+9366 '鍦'
+Line 767: still has '寤栬' -> 	body.text += "馃挄 寤栬姵濂芥劅锛"d鉂n" % heart
+  pos 15: U+9983 '馃'
+  pos 16: U+6304 '挄'
+  pos 18: U+5BE4 '寤'
+  pos 19: U+682C '栬'
+  pos 20: U+59F5 '姵'
+  pos 21: U+6FC2 '濂'
+  pos 22: U+82A5 '芥'
+  pos 23: U+5285 '劅'
+  pos 24: U+951B '锛'
+  pos 27: U+9242 '鉂'
+  pos 28: U+E602 ''
+Line 581: still has '鍐' -> 		3: # 鍐"- 娣¤摑/鐧"			overlay.color = Color(0.9, 0.95, 1.0, 0.06)
+  pos 7: U+9350 '鍐'
+  pos 11: U+5A23 '娣'
+  pos 12: U+00A4 '¤'
+  pos 13: U+6451 '摑'
+  pos 15: U+9427 '鐧'
+Line 759: still has '鍐' -> 	var season_names = ["鏄", "澶", "绉", "鍐"]
+  pos 22: U+93C4 '鏄'
+  pos 27: U+6FB6 '澶'
+  pos 32: U+7EC9 '绉'
+  pos 37: U+9350 '鍐'
+Line 779: still has '鍐' -> # 鍐滃満鍑哄彛 鈫"灏忛晣
+  pos 2: U+9350 '鍐'
+  pos 3: U+6EC3 '滃'
+  pos 4: U+6E80 '満'
+  pos 5: U+9351 '鍑'
+  pos 6: U+54C4 '哄'
+  pos 7: U+5F5B '彛'
+  pos 9: U+922B '鈫'
+  pos 11: U+704F '灏'
+  pos 12: U+5FDB '忛'
+  pos 13: U+6663 '晣'
+
+=== Fixed content around problem areas ===
+Line 89: 	gold_label.text = "馃挵 " + str(Inventory.gold) + " G"
+Line 92: 		gold_label.text = "馃挵 " + str(Inventory.gold) + " G"
+Line 95: 	# 浣撳姏鏉"	var st_bar_bg = Panel.new()
+Line 114: 	st_label.text = "浣撳姏: 100/100"
+Line 162: 	mail_btn.text = "馃摤"
+Line 441: 	st_label.text = "浣撳姏: %d/%d" % [st, max_st]
+Line 448: 	aff_label.text = "鉂"" + str(hearts) + " 濂芥劅搴"
+Line 558: 	# 姣忔棩 20:00 鏃ユ姤
+Line 561: 	# 寤栬姵鏃ョ▼锛"2:00-18:00 鍦ㄥ啘鍦"	_update_liaofang_presence(hour)
+Line 566: 	# 瀛ｈ妭鑹茶皟瑕嗙洊灞"	var overlay = get_node_or_null("SeasonOverlay")
+Line 575: 		0: # 鏄"- 娣＄矇
+Line 577: 		1: # 澶"- 娣￠噾
+Line 579: 		2: # 绉"- 娣℃
+Line 581: 		3: # 鍐"- 娣¤摑/鐧"			overlay.color = Color(0.9, 0.95, 1.0, 0.06)
+Line 738: # 鐗╁搧渚ц竟鏍"& 鏅ㄩ棿绠€鎶"func _refresh_inv_panel():
+Line 761: 	title.text = "📋 第%d天 · %s"瀛" % [day, season_names[season]]
+Line 762: 	body.text = "浠婂ぉ澶╂皵锛"s\n\n" % w_names[weather]
+Line 767: 	body.text += "馃挄 寤栬姵濂芥劅锛"d鉂n" % heart
+Line 779: # 鍐滃満鍑哄彛 鈫"灏忛晣
+Line 781: 	# 宸︿笅鍑哄彛鈫掑皬闀"	var town_exit = Area2D.new()
+Line 792: 	# 鍙充笂鍑哄彛鈫掓．鏋"	var forest_exit = Area2D.new()
+Line 806: 	# 鍙充笂鐭挎礊鍑哄彛锛堝鏋滃凡瑙ｉ攣锛"	_setup_mine_exit()
+Line 840: 	# 寮瑰嚭閽撻奔灏忔父鎴"	var fish_game = get_node_or_null("HUD/FishGame")
+Line 951: # 馃對锔"澶╂皵鏁堟灉
+Line 961: 	# 娓呴櫎鏃х矑瀛"	for c in weather_layer.get_children():

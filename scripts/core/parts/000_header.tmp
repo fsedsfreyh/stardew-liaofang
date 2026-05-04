@@ -1,0 +1,184 @@
+# ═══════════════════════════════════
+# 🎨 调色板（增强版：4-5级渐变）
+# ═══════════════════════════════════
+const PALETTE = {
+	g_dd = Color("#3a6624"), g_d = Color("#46732e"), g = Color("#5c8f3c"),
+	g_l = Color("#6ca048"), g_ll = Color("#7cb854"), g_s = Color("#8fc868"),
+	g_n = Color("#3d6624"), g_hl = Color("#90d070"),
+	d_dd = Color("#604830"), d_d = Color("#78583c"), d = Color("#886846"),
+	d_l = Color("#987854"), d_ll = Color("#a88862"),
+	d_w = Color("#5a4a30"), d_hl = Color("#b89870"),
+	w_dd = Color("#1a5080"), w_d = Color("#2a6090"), w = Color("#3870a0"),
+	w_l = Color("#4880b0"), w_f = Color("#68a8d0"), w_w = Color("#5898c0"),
+	w_g = Color("#88c0e0"), w_hl = Color("#a0d0f0"),
+	wd = Color("#4a3020"), wl = Color("#5a3a2a"), wb = Color("#7a5a4a"),
+	r = Color("#3a2010"), r_l = Color("#4a3020"), r_d = Color("#2a1810"),
+	db = Color("#5a3a2a"), dd = Color("#3a2010"),
+	p_dd = Color("#786848"), p_d = Color("#887858"), p = Color("#988868"),
+	p_l = Color("#a89878"), p_s = Color("#a09070"), p_h = Color("#b8a888"),
+	p_hl = Color("#c8b898"),
+	f_pk = Color("#e86888"), f_rs = Color("#e088a0"), f_pe = Color("#e8a878"),
+	f_y = Color("#e8c040"), f_yd = Color("#d0a830"), f_r = Color("#c46858"),
+	f_b = Color("#6888c0"), f_bd = Color("#5070a8"), f_pu = Color("#9860c0"),
+	f_o = Color("#e88808"), f_w = Color("#e0e0d8"), f_pk_l = Color("#f088a8"),
+	s_d = Color("#d0a880"), s = Color("#e8c8a0"), s_s = Color("#d8b890"),
+	s_l = Color("#f0d8b0"), s_ll = Color("#f8e8d0"), s_b = Color("#e8a090"),
+	s_rs = Color("#f0b090"),
+	h_brd = Color("#2a1a10"), h_br = Color("#3a2a1a"), h_brl = Color("#4a3a28"),
+	h_bl = Color("#5a4a38"), h_bll = Color("#6a5a48"),
+	h_bk = Color("#18180a"), h_bkl = Color("#282818"), h_bkg = Color("#383828"),
+	h_kl = Color("#282818"), h_kll = Color("#383828"),
+	h_yd = Color("#c09840"), h_yl = Color("#c8a850"), h_yll = Color("#d8b860"),
+	h_a = Color("#683828"),
+	e_d = Color("#18182c"), e_b = Color("#3878b0"), e_g = Color("#488838"),
+	e_h = Color("#e8e8e8"), e_hl = Color("#ffffff"),
+	pl_b = Color("#4888d0"), pl_s = Color("#3878b8"), pl_l = Color("#5898e0"),
+	pl_ll = Color("#68a8f0"),
+	je = Color("#385888"), je_s = Color("#284878"), je_l = Color("#4870a0"),
+	l_pk = Color("#e86888"), l_ps = Color("#d05878"), l_pkl = Color("#f088a8"),
+	l_sk = Color("#e06078"), l_sh = Color("#e8a878"),
+	l_pk_l = Color("#f098b0"), l_sk_l = Color("#f07090"),
+	fn = Color("#887044"), fnd = Color("#685030"), fnl = Color("#988054"),
+	fn_hl = Color("#a89060"),
+	tk = Color("#583828"), tkd = Color("#382818"), tkl = Color("#684838"),
+	tk_l = Color("#785848"),
+	lf_dd = Color("#185818"), lf_d = Color("#286828"), lf = Color("#387830"),
+	lf_l = Color("#488840"), lf_ll = Color("#589850"), lf_s = Color("#68a860"),
+	lf_hl = Color("#78c060"),
+	gt = Color("#d0a858"), gb = Color("#d8c040"), gs = Color("#e8d060"),
+	gt_d = Color("#b88840"),
+	hr = Color("#e82850"), hr_l = Color("#f04868"),
+	st = Color("#e8c830"),
+	h_rd = Color("#683020"), h_r = Color("#884030"), h_rl = Color("#a05040"),
+	h_gn = Color("#386828"), h_gnl = Color("#488838"),
+	h_pu = Color("#483868"), h_pul = Color("#584878"),
+	sk_d = Color("#b85068"), sk_s = Color("#c85870"),
+	gry_d = Color("#606060"), gry = Color("#808080"), gry_l = Color("#a0a0a0"),
+	gry_ll = Color("#c0c0c0"), wh = Color("#f0f0f0"),
+	ch_d = Color("#2a2a2a"), ch = Color("#3a3a3a"), ch_l = Color("#4a4a4a"),
+	stl = Color("#c0c0c0"), stl_d = Color("#909090"), stl_l = Color("#e0e0e0"),
+	gold_bar = Color("#d8c040"), gold_bar_d = Color("#b8a030"),
+	egg_shell = Color("#f0e8d0"), egg_wh = Color("#faf0e0"),
+	blush = Color(0.8, 0.3, 0.35, 0.4),
+}
+
+static func create(w: int, h: int) -> Image:
+	var img = Image.create(w, h, false, Image.FORMAT_RGBA8)
+	img.fill(Color(0, 0, 0, 0))
+	return img
+
+static func r(img: Image, x: int, y: int, w: int, h: int, c: Color):
+	for py in range(y, y + h):
+		for px in range(x, x + w):
+			if px >= 0 and px < img.get_width() and py >= 0 and py < img.get_height():
+				img.set_pixel(px, py, c)
+
+static func p(img: Image, x: int, y: int, c: Color):
+	if x >= 0 and x < img.get_width() and y >= 0 and y < img.get_height():
+		img.set_pixel(x, y, c)
+
+static func circ(img: Image, cx: int, cy: int, r: int, c: Color):
+	for y in range(-r, r + 1):
+		for x in range(-r, r + 1):
+			if x*x + y*y <= r*r:
+				p(img, cx + x, cy + y, c)
+
+static func fcirc(img: Image, cx: int, cy: int, r: int, c: Color):
+	for y in range(-r, r + 1):
+		for x in range(-r, r + 1):
+			if x*x + y*y <= r*r:
+				p(img, cx + x, cy + y, c)
+
+static func to_tex(img: Image) -> ImageTexture:
+	return ImageTexture.create_from_image(img)
+
+static func _darker(c: Color, f: float = 0.25) -> Color:
+	return Color(c.r * (1.0 - f), c.g * (1.0 - f), c.b * (1.0 - f), c.a)
+
+static func _lighter(c: Color, f: float = 0.25) -> Color:
+	return Color(c.r + (1.0 - c.r) * f, c.g + (1.0 - c.g) * f, c.b + (1.0 - c.b) * f, c.a)
+
+static func _hline(img: Image, x1: int, x2: int, y: int, c: Color):
+	for x in range(min(x1, x2), max(x1, x2) + 1):
+		p(img, x, y, c)
+
+static func _vline(img: Image, x: int, y1: int, y2: int, c: Color):
+	for y in range(min(y1, y2), max(y1, y2) + 1):
+		p(img, x, y, c)
+
+static func _line(img: Image, x1: int, y1: int, x2: int, y2: int, c: Color):
+	var dx = abs(x2 - x1)
+	var dy = -abs(y2 - y1)
+	var sx = 1 if x1 < x2 else -1
+	var sy = 1 if y1 < y2 else -1
+	var err = dx + dy
+	var cx = x1
+	var cy = y1
+	while true:
+		p(img, cx, cy, c)
+		if cx == x2 and cy == y2:
+			break
+		var e2 = 2 * err
+		if e2 >= dy:
+			err += dy
+			cx += sx
+		if e2 <= dx:
+			err += dx
+			cy += sy
+
+# ═══════════════════════════════════
+# 🏞️ 瓦片（16×16 → 2x upscale to 32×32）
+# ═══════════════════════════════════
+
+static func generate_tile(type: String, v: int = 0) -> ImageTexture:
+	var src = create(16, 16)
+	match type:
+		"grass": _tg(src, v)
+		"dirt": _td(src, v)
+		"water": _tw(src, v)
+		"path": _tp(src, v)
+		"flower_bed": _tf(src, v)
+		"fence": _tfn(src)
+		"house_wall": _twall(src)
+		"house_roof": _troof(src)
+		"door": _tdoor(src)
+		"tree": _tt(src, v)
+	return _upscale2x(src, 32, 32)
+
+# ─── Grass Tile ────────────────────
+static func _tg(img: Image, v: int):
+	r(img, 0, 0, 16, 16, PALETTE.g)
+	var seed = v * 7 + 3
+	for i in range(30):
+		var px = (i * 9 + seed * 11) % 14 + 1
+		var py = (i * 11 + seed * 7) % 14 + 1
+		var c = PALETTE.g_n if (i + v) % 4 == 0 else (PALETTE.g_d if (i + v) % 3 == 0 else PALETTE.g_dd)
+		p(img, px, py, c)
+		if i % 3 == 0:
+			p(img, px + 1, py, c)
+	for i in range(10):
+		var gx = 1 + (i * 7 + v * 3) % 14
+		var gy = 8 + (i * 5 + v * 7) % 6
+		var gc_arr = [PALETTE.g_s, PALETTE.g_l, PALETTE.g_ll, PALETTE.g_hl, PALETTE.g_s, PALETTE.g_l, PALETTE.g_ll, PALETTE.g_s, PALETTE.g_l, PALETTE.g_hl]
+		p(img, gx, gy, gc_arr[i])
+		p(img, gx, gy - 1, gc_arr[i])
+		if i % 2 == 0:
+			p(img, gx + 1, gy - 1, gc_arr[i])
+		if i % 3 == 1:
+			p(img, gx, gy - 2, gc_arr[i])
+	if v % 2 == 0:
+		var fx1 = (v * 3) % 14 + 1
+		var fy1 = (v * 7) % 14 + 1
+		p(img, fx1, fy1, PALETTE.f_pk)
+		p(img, fx1 + 1, fy1, PALETTE.f_pk_l)
+		p(img, fx1, fy1 - 1, PALETTE.f_pk_l)
+	if v % 3 == 0:
+		var fx2 = (v * 5 + 7) % 14 + 1
+		var fy2 = (v * 11 + 3) % 14 + 1
+		p(img, fx2, fy2, PALETTE.f_y)
+		p(img, fx2 - 1, fy2, PALETTE.f_yd)
+	if v % 5 == 0:
+		var fx3 = (v * 13 + 2) % 14 + 1
+		var fy3 = (v * 3 + 9) % 14 + 1
+		p(img, fx3, fy3, PALETTE.f_w)
+		p(img, fx3 + 1, fy3 + 1, PALETTE.f_w)

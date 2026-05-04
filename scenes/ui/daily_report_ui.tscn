@@ -1,0 +1,65 @@
+[gd_scene load_steps=5 format=3 uid="uid://daily_report_ui"]
+
+[ext_resource type="Script" path="res://scripts/ui/daily_report_ui.gd" id="1_d0v4r"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8ba7t"]
+bg_color = Color(0.164, 0.09, 0.043, 0.92)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_left = 8
+corner_radius_bottom_right = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d5f2h"]
+bg_color = Color(0.753, 0.651, 0.361, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+content_margin_left = 8
+content_margin_right = 8
+content_margin_top = 4
+content_margin_bottom = 4
+
+[node name="DailyReportUI" type="CanvasLayer"]
+script = ExtResource("1_d0v4r")
+
+[node name="Bg" type="ColorRect" parent="."]
+anchors_preset = 0
+offset_left = 340.0
+offset_top = 160.0
+offset_right = 940.0
+offset_bottom = 560.0
+color = Color(1, 1, 1, 1)
+theme_override_styles/panel = SubResource("StyleBoxFlat_8ba7t")
+
+[node name="Title" type="Label" parent="."]
+anchors_preset = 0
+offset_left = 400.0
+offset_top = 180.0
+offset_right = 880.0
+offset_bottom = 220.0
+theme_override_font_sizes/font_size = 20
+theme_override_colors/font_color = Color(0.941, 0.904, 0.576, 1)
+text = "日报"
+
+[node name="ReportText" type="Label" parent="."]
+anchors_preset = 0
+offset_left = 360.0
+offset_top = 220.0
+offset_right = 920.0
+offset_bottom = 520.0
+theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+autowrap_mode = 2
+
+[node name="CloseBtn" type="Button" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -60.0
+offset_top = 530.0
+offset_right = 60.0
+offset_bottom = 560.0
+text = "关闭"
+theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(1, 1, 1, 1)

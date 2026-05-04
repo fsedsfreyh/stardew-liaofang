@@ -1,0 +1,48 @@
+SCRIPT ERROR: Parse Error: Mixed use of tabs and spaces for indentation.
+   at: GDScript::reload (res://scripts/fishing/fish_game.gd:88)
+   GDScript backtrace (most recent call first):
+       [0] _go (res://simple_test.gd:10)
+ERROR: Failed to load script "res://scripts/fishing/fish_game.gd" with error "Parse error".
+   at: load (modules/gdscript/gdscript.cpp:2907)
+   GDScript backtrace (most recent call first):
+       [0] _go (res://simple_test.gd:10)
+SCRIPT ERROR: Parse Error: Function "_defer_show_tip()" not found in base self.
+   at: GDScript::reload (res://scripts/farm/farm_scene.gd:55)
+   GDScript backtrace (most recent call first):
+       [0] _go (res://simple_test.gd:10)
+SCRIPT ERROR: Parse Error: Function "_show_scene_tip()" not found in base self.
+   at: GDScript::reload (res://scripts/farm/farm_scene.gd:59)
+   GDScript backtrace (most recent call first):
+       [0] _go (res://simple_test.gd:10)
+SCRIPT ERROR: Parse Error: Function "_show_scene_tip()" not found in base self.
+   at: GDScript::reload (res://scripts/farm/farm_scene.gd:64)
+   GDScript backtrace (most recent call first):
+       [0] _go (res://simple_test.gd:10)
+SCRIPT ERROR: Parse Error: Identifier "_on_skill_level_up" not declared in the current scope.
+   at: GDScript::reload (res://scripts/farm/farm_scene.gd:77)
+   GDScript backtrace (most recent call first):
+       [0] _go (res://simple_test.gd:10)
+SCRIPT ERROR: Parse Error: Function "_check_fatigue_warning()" not found in base self.
+   at: GDScript::reload (res://scripts/farm/farm_scene.gd:78)
+   GDScript backtrace (most recent call first):
+       [0] _go (res://simple_test.gd:10)
+SCRIPT ERROR: Parse Error: Function "_generate_minimap()" not found in base self.
+   at: GDScript::reload (res://scripts/farm/farm_scene.gd:81)
+   GDScript backtrace (most recent call first):
+       [0] _go (res://simple_test.gd:10)
+SCRIPT ERROR: Parse Error: Function "_toggle_minimap()" not found in base self.
+   at: GDScript::reload (res://scripts/farm/farm_scene.gd:334)
+   GDScript backtrace (most recent call first):
+       [0] _go (res://simple_test.gd:10)
+SCRIPT ERROR: Parse Error: Function "_toggle_skill_panel()" not found in base self.
+   at: GDScript::reload (res://scripts/farm/farm_scene.gd:335)
+   GDScript backtrace (most recent call first):
+       [0] _go (res://simple_test.gd:10)
+SCRIPT ERROR: Parse Error: Function "_make_bed_texture()" not found in base self.
+   at: GDScript::reload (res://scripts/farm/farm_scene.gd:1346)
+   GDScript backtrace (most recent call first):
+       [0] _go (res://simple_test.gd:10)
+ERROR: Failed to load script "res://scripts/farm/farm_scene.gd" with error "Parse error".
+   at: load (modules/gdscript/gdscript.cpp:2907)
+   GDScript backtrace (most recent call first):
+       [0] _go (res://simple_test.gd:10)

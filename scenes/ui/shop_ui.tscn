@@ -1,0 +1,193 @@
+[gd_scene load_steps=2 format=3 uid="uid://cxm0y06csjj6m"]
+
+[ext_resource type="Script" path="res://scripts/ui/shop_ui.gd" id="1_7ysaj"]
+
+[node name="ShopUI" type="CanvasLayer"]
+layer = 10
+script = ExtResource("1_7ysaj")
+
+[node name="Background" type="ColorRect" parent="."]
+color = Color(0, 0, 0, 0.7)
+layout_mode = 0
+offset_left = 0
+offset_top = 0
+offset_right = 800
+offset_bottom = 700
+
+[node name="Title" type="Label" parent="."]
+text = "Bill's Shop"
+layout_mode = 0
+offset_left = 300
+offset_top = 12
+offset_right = 560
+offset_bottom = 40
+add_theme_font_size_override("font_size", 20)
+add_theme_color_override("font_color", Color("#ffd700"))
+
+[node name="TabBuy" type="Button" parent="."]
+text = "购买"
+layout_mode = 0
+offset_left = 100
+offset_top = 48
+offset_right = 200
+offset_bottom = 76
+add_theme_font_size_override("font_size", 13)
+
+[node name="TabSell" type="Button" parent="."]
+text = "出售"
+layout_mode = 0
+offset_left = 210
+offset_top = 48
+offset_right = 310
+offset_bottom = 76
+add_theme_font_size_override("font_size", 13)
+
+[node name="TabUpgrade" type="Button" parent="."]
+text = "升级"
+layout_mode = 0
+offset_left = 320
+offset_top = 48
+offset_right = 420
+offset_bottom = 76
+add_theme_font_size_override("font_size", 13)
+
+[node name="BuyPanel" type="Panel" parent="."]
+layout_mode = 0
+offset_left = 40
+offset_top = 85
+offset_right = 410
+offset_bottom = 560
+color = Color(0.2, 0.2, 0.25, 0.9)
+
+[node name="BuyLabel" type="Label" parent="BuyPanel"]
+text = "Purchase"
+layout_mode = 0
+offset_left = 10
+offset_top = 10
+offset_right = 200
+offset_bottom = 28
+add_theme_font_size_override("font_size", 14)
+add_theme_color_override("font_color", Color("#6a9c5f"))
+
+[node name="BuyList" type="ItemList" parent="BuyPanel"]
+layout_mode = 0
+offset_left = 10
+offset_top = 35
+offset_right = 350
+offset_bottom = 430
+fixed_icon_size = Vector2(24, 24)
+
+[node name="BuyGoldLabel" type="Label" parent="BuyPanel"]
+text = ""
+layout_mode = 0
+offset_left = 10
+offset_top = 440
+offset_right = 200
+offset_bottom = 460
+add_theme_font_size_override("font_size", 12)
+add_theme_color_override("font_color", Color("#ffd700"))
+
+[node name="BuyButton" type="Button" parent="BuyPanel"]
+text = "Buy"
+layout_mode = 0
+offset_left = 120
+offset_top = 440
+offset_right = 230
+offset_bottom = 468
+
+[node name="SellPanel" type="Panel" parent="."]
+layout_mode = 0
+offset_left = 420
+offset_top = 85
+offset_right = 760
+offset_bottom = 560
+color = Color(0.2, 0.2, 0.25, 0.9)
+
+[node name="SellLabel" type="Label" parent="SellPanel"]
+text = "Sell"
+layout_mode = 0
+offset_left = 10
+offset_top = 10
+offset_right = 200
+offset_bottom = 28
+add_theme_font_size_override("font_size", 14)
+add_theme_color_override("font_color", Color("#f0a87a"))
+
+[node name="SellList" type="ItemList" parent="SellPanel"]
+layout_mode = 0
+offset_left = 10
+offset_top = 35
+offset_right = 330
+offset_bottom = 430
+fixed_icon_size = Vector2(24, 24)
+
+[node name="SellGoldLabel" type="Label" parent="SellPanel"]
+text = ""
+layout_mode = 0
+offset_left = 10
+offset_top = 440
+offset_right = 200
+offset_bottom = 460
+add_theme_font_size_override("font_size", 12)
+add_theme_color_override("font_color", Color("#ffd700"))
+
+[node name="SellButton" type="Button" parent="SellPanel"]
+text = "Sell"
+layout_mode = 0
+offset_left = 120
+offset_top = 440
+offset_right = 230
+offset_bottom = 468
+
+[node name="UpgradePanel" type="Panel" parent="."]
+layout_mode = 0
+offset_left = 100
+offset_top = 85
+offset_right = 700
+offset_bottom = 560
+color = Color(0.2, 0.15, 0.1, 0.9)
+visible = false
+
+[node name="UpgradeLabel" type="Label" parent="UpgradePanel"]
+text = "Building Upgrades"
+layout_mode = 0
+offset_left = 20
+offset_top = 10
+offset_right = 400
+offset_bottom = 32
+add_theme_font_size_override("font_size", 16)
+add_theme_color_override("font_color", Color("#ffd700"))
+
+[node name="UpgradeList" type="ItemList" parent="UpgradePanel"]
+layout_mode = 0
+offset_left = 20
+offset_top = 40
+offset_right = 560
+offset_bottom = 440
+fixed_icon_size = Vector2(24, 24)
+
+[node name="UpgradeButton" type="Button" parent="UpgradePanel"]
+text = "Purchase Upgrade"
+layout_mode = 0
+offset_left = 200
+offset_top = 450
+offset_right = 400
+offset_bottom = 478
+
+[node name="CloseBtn" type="Button" parent="."]
+text = "Close (B)"
+layout_mode = 0
+offset_left = 340
+offset_top = 580
+offset_right = 460
+offset_bottom = 610
+
+[node name="TotalGold" type="Label" parent="."]
+text = ""
+layout_mode = 0
+offset_left = 300
+offset_top = 615
+offset_right = 500
+offset_bottom = 640
+add_theme_font_size_override("font_size", 16)
+add_theme_color_override("font_color", Color("#ffd700"))

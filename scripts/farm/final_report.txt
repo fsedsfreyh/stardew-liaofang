@@ -1,0 +1,56 @@
+=== VERIFICATION REPORT ===
+Total lines: 1024
+
+PASS: No odd-quote issues found!
+
+=== Fixed lines ===
+Line 89: 	gold_label.text = "💰 " + str(Inventory.gold) + " G"
+Line 92: 		gold_label.text = "💰 " + str(Inventory.gold) + " G"
+Line 95: 	# 体力条	var st_bar_bg = Panel.new()
+Line 114: 	st_label.text = "体力: 100/100"
+Line 162: 	mail_btn.text = "📬"
+Line 441: 	st_label.text = "体力: %d/%d" % [st, max_st]
+Line 448: 	aff_label.text = "❤" + str(hearts) + " 好感度"
+Line 558: 	# 每 日 20:00 日报
+Line 561: 	# 廖芳日程：12:00-18:00 在农场	_update_liaofang_presence(hour)
+Line 566: 	# 季节色调覆盖层	var overlay = get_node_or_null("SeasonOverlay")
+Line 575: 		0: # 春 - 淡粉
+Line 577: 		1: # 夏 - 淡金
+Line 579: 		2: # 秋 - 淡橙
+Line 581: 		3: # 冬 - 淡蓝/白			overlay.color = Color(0.9, 0.95, 1.0, 0.06)
+Line 738: # 物品侧边栏 & 晨间简报
+Line 759: 	var season_names = ["春", "夏", "秋", "冬"]
+Line 760: 	var w_names = ["☀️ 晴", "🌤️ 阴", "🌧️ 雨", "❄️ 雪"]
+Line 761: 	title.text = "📋 第%d天 · %s季" % [day, season_names[season]]
+Line 762: 	body.text = "今天天气：%s\n\n" % w_names[weather]
+Line 765: 		if unread > 0: body.text += "📬 你有 %d 封未读邮件！\n" % unread
+Line 767: 	body.text += "💰 廖芳好感：%d❤️\n" % heart
+Line 768: 	if weather == 2: body.text += "\n🌧️ 雨天提示：作物今天自动浇水！"
+Line 769: 	elif weather == 3: body.text += "\n❄️ 雪天提示：今天不能耕作！"
+Line 779: # 农场出口 → 小镇
+Line 781: 	# 左下出口→小镇
+Line 792: 	# 右上出口→森林
+Line 806: 	# 右上矿洞出口（如果已解锁）
+Line 840: 	# 弹出钓鱼小游戏
+Line 873: 		lock.text = "⛏ 城北矿洞（需在商店购买入场券）"
+Line 907: 		_show_notice("🐔 鸡舍产出 2 个鸡蛋！")
+Line 910: 		_show_notice("🐄 牛栏产出 2 瓶牛奶！")
+Line 951: # 🌤️ 天气效果
+Line 961: 	# 清除旧粒子
+
+=== GUIDE_STEPS (lines 24-30) ===
+Line 24: 	"🛠️ 按 Q/E 切换工具\n左键点击耕地区\n使用锄头松土",
+Line 25: 	"💧 选中水壶工具\n点击耕地浇水\n作物需要每天浇水",
+Line 26: 	"🌱 选择种子工具\n在耕地上点击\n种下你的第一颗种子",
+Line 27: 	"🌿 等待作物成熟\n成熟后选择镰刀\n左键收获作物",
+Line 28: 	"🏘️ 去左下角出口\n按 E 进入小镇\n找 Bill 买东西",
+Line 29: ]
+Line 30: var _hud_setup_done: bool = false
+Line 31: 
+
+=== Remaining corruption scan ===
+Line 222: contains U+6FB6 澶
+Line 562: contains U+6FB6 澶
+Line 980: contains U+5BE4 寤
+
+PASS: File is UTF-8 without BOM

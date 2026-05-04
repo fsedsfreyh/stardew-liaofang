@@ -1,0 +1,119 @@
+# ─── 廖芳角色（增强版） ────────────
+static func generate_liaofang_sprite(dir: String = "down", frame: int = 0) -> ImageTexture:
+	var src = create(16, 32)
+	var lo = 0
+	if frame == 1: lo = 1
+	elif frame == 3: lo = -1
+	
+	var outline_ps = _darker(PALETTE.l_ps, 0.2)
+	p(src, 4, 17, outline_ps)
+	r(src, 5, 17, 1, 5, outline_ps)
+	r(src, 11, 17, 1, 5, outline_ps)
+	
+	# ── Shoes ──
+	r(src, 6 + lo, 30, 2, 2, PALETTE.l_sh)
+	r(src, 9 - lo, 30, 2, 2, PALETTE.l_sh)
+	r(src, 5 + lo, 31, 3, 1, Color("#6a4a2a"))
+	r(src, 9 - lo, 31, 3, 1, Color("#6a4a2a"))
+	p(src, 6 + lo, 30, _lighter(PALETTE.l_sh, 0.15))
+	p(src, 9 - lo, 30, _lighter(PALETTE.l_sh, 0.15))
+	
+	# ── Pink Dress ──
+	r(src, 5, 20, 7, 10, PALETTE.l_sk)
+	r(src, 4, 21, 8, 8, PALETTE.l_sk)
+	r(src, 5, 20, 7, 4, PALETTE.l_ps)
+	p(src, 4, 21, PALETTE.l_ps)
+	p(src, 12, 21, PALETTE.l_ps)
+	r(src, 5, 25, 7, 1, PALETTE.l_ps)
+	r(src, 6, 28, 5, 1, PALETTE.l_ps)
+	# 裙子褶皱 + 更多纹理
+	r(src, 4, 21, 1, 9, _darker(PALETTE.l_sk, 0.2))
+	r(src, 12, 21, 1, 9, _darker(PALETTE.l_sk, 0.2))
+	_vline(src, 6, 22, 28, _darker(PALETTE.l_sk, 0.1))
+	_vline(src, 10, 22, 28, _darker(PALETTE.l_sk, 0.1))
+	# 裙摆亮部
+	_hline(src, 5, 11, 21, PALETTE.l_sk_l)
+	p(src, 5, 22, PALETTE.l_sk_l)
+	p(src, 11, 22, PALETTE.l_sk_l)
+	
+	# ── Upper body (pink top) ──
+	r(src, 5, 16, 6, 5, PALETTE.l_pk)
+	r(src, 5, 17, 7, 4, PALETTE.l_pk)
+	r(src, 6, 16, 4, 2, Color("#f0f0f0"))
+	p(src, 6, 17, PALETTE.l_ps)
+	p(src, 10, 17, PALETTE.l_ps)
+	p(src, 8, 20, PALETTE.hr)
+	p(src, 5, 16, _darker(PALETTE.l_pk, 0.15))
+	p(src, 11, 16, _darker(PALETTE.l_pk, 0.15))
+	
+	# ── Head ──
+	fcirc(src, 8, 7, 5, PALETTE.s)
+	fcirc(src, 8, 7, 4, PALETTE.s_l)
+	
+	# ── Long black hair (更多层次) ──
+	r(src, 3, 2, 10, 11, PALETTE.h_bk)
+	r(src, 2, 5, 3, 15, PALETTE.h_bk)
+	r(src, 12, 5, 3, 15, PALETTE.h_bk)
+	r(src, 4, 1, 8, 5, PALETTE.h_bk)
+	fcirc(src, 8, 3, 5, PALETTE.h_bk)
+	r(src, 2, 2, 12, 1, PALETTE.h_bkl)
+	p(src, 5, 1, PALETTE.h_kl)
+	p(src, 11, 1, PALETTE.h_kl)
+	p(src, 1, 17, PALETTE.h_bk)
+	p(src, 15, 17, PALETTE.h_bk)
+	p(src, 1, 19, PALETTE.h_kl)
+	p(src, 15, 19, PALETTE.h_kl)
+	# 头发层次 - 高光线
+	_vline(src, 4, 3, 12, PALETTE.h_bkg)
+	_vline(src, 12, 3, 12, PALETTE.h_bkg)
+	p(src, 2, 10, PALETTE.h_bkl)
+	p(src, 14, 10, PALETTE.h_bkl)
+	p(src, 3, 2, PALETTE.h_kll)
+	p(src, 13, 2, PALETTE.h_kll)
+	
+	# ── Ears ──
+	p(src, 3, 7, PALETTE.s)
+	p(src, 13, 7, PALETTE.s)
+	
+	# ── Eyes ──
+	var eo = 0
+	if dir == "left": eo = -1
+	elif dir == "right": eo = 1
+	r(src, 6 + eo, 8, 2, 2, PALETTE.e_b)
+	r(src, 9 + eo, 8, 2, 2, PALETTE.e_b)
+	p(src, 6 + eo, 8, PALETTE.e_h)
+	p(src, 9 + eo, 8, PALETTE.e_h)
+	p(src, 6 + eo, 8, PALETTE.e_hl)
+	p(src, 9 + eo, 8, PALETTE.e_hl)
+	p(src, 5 + eo, 7, PALETTE.h_bk)
+	p(src, 7 + eo, 7, PALETTE.h_bk)
+	p(src, 10 + eo, 7, PALETTE.h_bk)
+	p(src, 12 + eo, 7, PALETTE.h_bk)
+	
+	# ── Eyebrows ──
+	r(src, 5 + eo, 6, 3, 1, PALETTE.h_bk)
+	r(src, 9 + eo, 6, 3, 1, PALETTE.h_bk)
+	
+	# ── Blush + nose shadow ──
+	p(src, 4, 11, PALETTE.s_b)
+	p(src, 12, 11, PALETTE.s_b)
+	p(src, 8, 10, _darker(PALETTE.s, 0.1))
+	
+	# ── Mouth ──
+	if dir == "down":
+		r(src, 6, 12, 4, 1, Color("#c06050"))
+		p(src, 7, 12, Color.WHITE)
+		p(src, 9, 12, Color.WHITE)
+	
+	# ── Hair bow (蝴蝶结细节) ──
+	r(src, 11, 3, 3, 3, PALETTE.f_pk)
+	r(src, 12, 2, 2, 1, PALETTE.f_pk)
+	p(src, 11, 4, PALETTE.f_pk)
+	p(src, 14, 4, PALETTE.f_pk)
+	p(src, 12, 3, PALETTE.f_y)
+	# 蝴蝶结阴影
+	p(src, 11, 3, _darker(PALETTE.f_pk, 0.2))
+	p(src, 13, 3, _darker(PALETTE.f_pk, 0.2))
+	p(src, 12, 3, PALETTE.f_yd)
+	
+	return _upscale2x(src, 32, 64)

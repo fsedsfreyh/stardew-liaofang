@@ -1,0 +1,77 @@
+[gd_scene load_steps=2 format=3 uid="uid://crafting_ui"]
+
+[ext_resource type="Script" path="res://scripts/ui/crafting_ui.gd" id="1"]
+
+[node name="CraftingUI" type="Control"]
+offset_left = 160
+offset_top = 80
+offset_right = 640
+offset_bottom = 560
+
+[node name="Panel" type="Panel" parent="."]
+offset_left = 0
+offset_right = 480
+offset_bottom = 480
+
+[node name="CloseBtn" type="Button" parent="."]
+offset_left = 460
+offset_top = 4
+offset_right = 480
+offset_bottom = 24
+text = "✕"
+theme_override_font_sizes/font_size = 12
+
+[node name="Title" type="Label" parent="Panel"]
+offset_left = 180
+offset_top = 10
+offset_right = 340
+offset_bottom = 36
+text = "🔨 合成台"
+theme_override_font_sizes/font_size = 16
+theme_override_colors/font_color = Color(1, 0.843, 0, 1)
+
+[node name="RecipeContainer" type="VBoxContainer" parent="Panel"]
+offset_left = 20
+offset_top = 50
+offset_right = 220
+offset_bottom = 460
+
+[node name="DetailPanel" type="Panel" parent="Panel"]
+offset_left = 240
+offset_top = 50
+offset_right = 460
+offset_bottom = 300
+
+[node name="RecipeName" type="Label" parent="Panel/DetailPanel"]
+offset_left = 10
+offset_top = 10
+offset_right = 200
+offset_bottom = 34
+text = "选择一个配方"
+theme_override_font_sizes/font_size = 14
+
+[node name="RecipeDesc" type="Label" parent="Panel/DetailPanel"]
+offset_left = 10
+offset_top = 40
+offset_right = 200
+offset_bottom = 74
+text = ""
+theme_override_font_sizes/font_size = 11
+autowrap_mode = 2
+
+[node name="Materials" type="Label" parent="Panel/DetailPanel"]
+offset_left = 10
+offset_top = 78
+offset_right = 200
+offset_bottom = 180
+text = ""
+theme_override_font_sizes/font_size = 11
+autowrap_mode = 2
+
+[node name="CraftBtn" type="Button" parent="Panel/DetailPanel"]
+offset_left = 40
+offset_top = 190
+offset_right = 170
+offset_bottom = 220
+text = "制作"
+theme_override_font_sizes/font_size = 12

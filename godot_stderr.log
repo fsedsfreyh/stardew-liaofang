@@ -1,0 +1,14 @@
+SCRIPT ERROR: Parse Error: Expected expression as dictionary key.
+   at: GDScript::reload (res://scripts/core/pixel_artist.gd:40)
+ERROR: Failed to load script "res://scripts/core/pixel_artist.gd" with error "Parse error".
+   at: load (modules/gdscript/gdscript.cpp:2907)
+ERROR: Failed to instantiate an autoload, script 'res://scripts/core/pixel_artist.gd' does not inherit from 'Node'.
+   at: start (main/main.cpp:4412)
+SCRIPT ERROR: Parse Error: Used space character for indentation instead of tab as used before in the file.
+   at: GDScript::reload (res://scripts/farm/farm_scene.gd:80)
+   GDScript backtrace (most recent call first):
+       [0] _go (res://simple_test.gd:10)
+ERROR: Failed to load script "res://scripts/farm/farm_scene.gd" with error "Parse error".
+   at: load (modules/gdscript/gdscript.cpp:2907)
+   GDScript backtrace (most recent call first):
+       [0] _go (res://simple_test.gd:10)
